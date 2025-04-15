@@ -40,7 +40,7 @@
               "RelativeDocumentMoniker": "NewsApp.Repository\\SignUpRepository.cs",
               "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\SignUpRepository.cs",
               "RelativeToolTip": "NewsApp.Repository\\SignUpRepository.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAFAAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAEwAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-04-15T16:20:17.748Z",
               "EditorCaption": ""
@@ -55,8 +55,7 @@
               "RelativeToolTip": "newsapp\\Controllers\\SignUpController.cs",
               "ViewState": "AgIAAB4AAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:20:10.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-15T16:20:10.702Z"
             },
             {
               "$type": "Document",
@@ -68,8 +67,7 @@
               "RelativeToolTip": "NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:19:55.08Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-15T16:19:55.08Z"
             },
             {
               "$type": "Document",
@@ -81,8 +79,7 @@
               "RelativeToolTip": "NewsApp.Repository\\Models\\SignUpResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:19:54.028Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-15T16:19:54.028Z"
             },
             {
               "$type": "Document",
@@ -94,8 +91,7 @@
               "RelativeToolTip": "newsapp\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T08:34:49.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-15T08:34:49.672Z"
             }
           ]
         }

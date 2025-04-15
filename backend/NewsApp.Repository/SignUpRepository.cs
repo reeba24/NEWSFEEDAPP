@@ -74,7 +74,7 @@ namespace NewsApp.Repository
             }
             else
             {
-                
+                return "error data insertion unsuccessful";
             }
         }
     }

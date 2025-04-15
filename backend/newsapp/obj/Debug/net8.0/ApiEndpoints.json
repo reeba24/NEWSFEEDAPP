@@ -1,0 +1,54 @@
+[
+  {
+    "ContainingType": "newsapp.Controllers.SignUpController",
+    "Method": "TestConnection",
+    "RelativePath": "api/SignUp/api/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SignUpController",
+    "Method": "login",
+    "RelativePath": "api/SignUp/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "newsapp.Models.login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SignUpController",
+    "Method": "signup",
+    "RelativePath": "api/SignUp/signup",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "signup",
+        "Type": "newsapp.Models.Signup",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

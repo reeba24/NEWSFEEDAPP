@@ -1,0 +1,43 @@
+<body>
+  <div class="FORGOTPASS">
+    <h1 class="forgotpass">Reset Password</h1>
+    <br>
+    <form #myform="ngForm" (ngSubmit)="openPopup()">
+      <div>
+        <b class="user">Enter Email</b>
+        <br>
+        <input type="email" name="username" [(ngModel)]="user.email" required [ngModelOptions]="{standalone: true}">
+        <span *ngIf="myform.controls['username']?.valid"></span>
+        <span *ngIf="myform.controls['username']?.invalid"></span>
+        <br><br>
+      </div>
+      <div>
+        <b class="pass">Enter New Password</b>
+        <br>
+        <input type="{{ showPassword ? 'text' : 'password' }}" name="password" [(ngModel)]="password" required [ngModelOptions]="{standalone: true}">
+        <span *ngIf="myform.controls['password']?.valid"></span>
+        <span *ngIf="myform.controls['password']?.invalid"></span>
+        <br><br>
+        <b class="pass">Re-enter New Password</b>
+        <br>
+        <input type="{{ showPassword ? 'text' : 'password' }}" name="password1" [(ngModel)]="password1" required [ngModelOptions]="{standalone: true}">
+        <span *ngIf="myform.controls['password1']?.valid"></span>
+        <span *ngIf="myform.controls['password1']?.invalid"></span>
+        <br>
+        <input type="checkbox" [(ngModel)]="showPassword" (change)="togglePassword()" [ngModelOptions]="{standalone: true}"> <b>Show Password</b>
+        <br>
+      </div>
+      <br>
+      <button class="log" type="submit" [disabled]="!myform.valid || password !== password1">Reset</button>
+
+      <div class="popup" *ngIf="popupVisible">
+        <h3>Password Reset</h3>
+        <br>
+        <label>Your password has been reset successfully</label>
+        <br>
+        <button class="ok" type="button" (click)="closePopup()">OK</button>
+      </div>
+      <br>
+    </form>
+  </div>
+</body>

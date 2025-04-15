@@ -1,0 +1,52 @@
+<body>
+  <div class="SIGNUP">
+    <h1 class="signup">Sign Up</h1>
+    <br>
+    <form #myform="ngForm">
+
+      <div>
+        <b class="user">Enter Email</b>
+        <br>
+        <input type="email" name="username" [(ngModel)]="user.email" required [ngModelOptions]="{standalone: true}">
+        <br><br>
+      </div>
+      <div>
+        <label><b>First Name</b></label>
+        <input type="text" name="firstName" [(ngModel)]="user.firstName" required [ngModelOptions]="{standalone: true}">
+      </div>
+      <br>
+      <div>
+        <label><b>Last Name</b></label>
+        <input type="text" name="lastName" [(ngModel)]="user.lastName" required [ngModelOptions]="{standalone: true}">
+      </div>
+      <br>
+      <div>
+        <label><b>About</b></label>
+        <input type="text" name="about" [(ngModel)]="user.about" required [ngModelOptions]="{standalone: true}">
+      </div>
+      <br>
+      <div>
+        <b class="pass">Enter Password</b>
+        <br>
+        <input type="{{ showPassword ? 'text' : 'password' }}" name="password" [(ngModel)]="password" required [ngModelOptions]="{standalone: true}">
+        <span *ngIf="myform.controls['password']?.invalid">Password is required</span>
+        <br><br>
+        <b class="pass">Confirm Password</b>
+        <br>
+        <input type="{{ showPassword ? 'text' : 'password' }}" name="password1" [(ngModel)]="password1" required [ngModelOptions]="{standalone: true}">
+        <span *ngIf="myform.controls['password1']?.invalid">Confirm password is required</span>
+        <br>
+        <input type="checkbox" [(ngModel)]="showPassword" (change)="togglePassword()" [ngModelOptions]="{standalone: true}"> <b>Show Password</b>
+        <br>
+      </div>
+      <br>
+      <button class="log" type="button" (click)="openPopup()" [disabled]="!myform.valid || password !== password1">Sign up</button>
+      <div class="popup" *ngIf="popupVisible">
+        <h3>{{ successMessage }}</h3>
+        <br>
+        <button class="ok" type="button" (click)="closePopup()">OK</button>
+      </div>
+      <br>
+    </form>
+  </div>
+</body>

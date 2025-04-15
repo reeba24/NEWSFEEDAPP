@@ -1,0 +1,145 @@
+
+* {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    
+   
+}
+.img1{
+    position: absolute; 
+    top: 20px;          
+    left: 50px;          
+    width: 50px;            
+}
+.img2{
+    padding-left: 70px;
+}
+
+.i{
+    position: absolute; 
+    top: 30px;          
+    left: 100px;          
+    padding-left: 20px;
+    height: auto;   
+} 
+.desp{
+    color: azure;
+    padding-left: 20px;
+    text-align: justify;
+}
+hr{
+   
+    position: absolute;
+    top: 70px; 
+    left: 0; 
+    width: 100%;
+    border-color: #0d8d22;
+   
+}
+.cont1{
+    display: grid;
+    padding: 70px;
+    
+}
+a{
+    color: #05450f;
+}
+.img2{
+    height: 250px;
+    width: 250px;
+    align-content: center;
+}
+body {
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(255, 255, 255); 
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+}
+
+.LOGIN {
+    text-align: left; 
+    padding: 20px; 
+    background-color: rgb(232, 236, 245);
+    width: 400px;
+    border-radius: 8px;
+}
+.COMP {
+     
+    padding: 20px; 
+    background-color: #0d8d22;
+    width: 400px;
+    height: 100%;
+    border-radius: 8px;
+}
+
+input[type=email],
+input[type=password]
+ {
+    width: 350px;
+    padding: 10px; 
+    border-radius: 4px;
+    border: 1px solid rgb(232, 236, 245); 
+    background-color: rgb(232, 236, 245);
+    border-color: black;
+}
+
+.log {
+    background-color: #05450f; 
+    color: rgb(232, 236, 245);
+    border: none; 
+    border-radius: 7px; 
+    padding: 10px 15px; 
+    cursor: pointer; 
+    width: 350px;
+}
+.popup {
+    position: fixed;
+    top: 15%;
+    align-content: center;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px 50px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    display: block;
+    z-index: 1000;
+  }
+  .popup.show {
+    display: block; 
+}
+.ok{
+    background-color:  #05450f; 
+    color: rgb(232, 236, 245);
+    border: none; 
+    border-radius: 7px; 
+    padding: 10px 15px; 
+    cursor: pointer; 
+    align-content: center;
+}
+
+a {
+    display: block; 
+    margin-top: 10px; 
+
+}
+.ch{
+    width: 350px;
+    padding: 10px; 
+    border-radius: 4px;
+    border: 1px solid rgb(232, 236, 245);
+    
+}
+input[type="password"],
+input[type="text"] {
+    width: 350px;
+    padding: 10px; 
+    border-radius: 4px;
+    border: 1px solid rgb(232, 236, 245);
+    background-color: rgb(232, 236, 245);
+    border-color: black;
+}
+

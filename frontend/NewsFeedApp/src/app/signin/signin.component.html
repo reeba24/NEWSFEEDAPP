@@ -1,0 +1,60 @@
+
+<body>
+  <img class="img1" src="src/assets/tech2.png" alt="techimg">
+  <label class="i"><b>Tech in the block</b></label>
+  <hr>
+
+  <div class="cont1">
+    <form #myForm="ngForm">
+      <div class="LOGIN">
+        <h1 class="login">Sign in</h1>
+        <br>
+
+        <label class="d">Don't have an account?</label>
+        &nbsp;
+        <a href="/signup">Create an account</a>
+        <br><br>
+
+        <div>
+          <b class="user">Email</b><br>
+          <input type="email" name="username" [(ngModel)]="user" required [ngModelOptions]="{standalone: true}">
+          <br><br>
+        </div>
+
+        <div>
+          <b class="pass">Password</b><br>
+          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" required [ngModelOptions]="{standalone: true}">
+          <br>
+          <input type="checkbox" [(ngModel)]="showPassword" name="showPassword" [ngModelOptions]="{standalone: true}"> <b>Show Password</b>
+        </div>
+
+        <br>
+        <div>
+          <input type="checkbox" name="keepLoggedIn"> <b class="logged">Keep me logged in</b>
+          <br><br>
+        </div>
+
+        <button class="log" type="button" (click)="openPopup()">Log in</button>
+
+        <div class="popup" id="popup" *ngIf="popupVisible">
+          <h3>Logged in</h3><br>
+          <button class="ok" type="button" (click)="closePopup()">OK</button>
+        </div>
+
+        <a href="/forgotpass">Forgot password?</a>
+      </div>
+    </form>
+  </div>
+
+  <div class="cont2">
+    <div class="COMP">
+      <img class="img2" src="src/assets/tech.png" alt="no">
+      <br>
+      <h1 class="desp">
+        Tech in the block brings you latest tech news and updates from engineers, leaders, and architects in block. Sign up to learn more.
+      </h1>
+    </div>
+  </div>
+</body>
+
+

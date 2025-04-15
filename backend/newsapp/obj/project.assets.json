@@ -2337,11 +2337,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\123ma\\source\\repos\\newsapp\\newsapp\\newsapp.csproj",
+      "projectUniqueName": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\newsapp.csproj",
       "projectName": "newsapp",
-      "projectPath": "C:\\Users\\123ma\\source\\repos\\newsapp\\newsapp\\newsapp.csproj",
+      "projectPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\newsapp.csproj",
       "packagesPath": "C:\\Users\\123ma\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\123ma\\source\\repos\\newsapp\\newsapp\\obj\\",
+      "outputPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2362,8 +2362,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\123ma\\source\\repos\\newsapp\\NewsApp.Repository\\NewsApp.Repository.csproj": {
-              "projectPath": "C:\\Users\\123ma\\source\\repos\\newsapp\\NewsApp.Repository\\NewsApp.Repository.csproj"
+            "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\NewsApp.Repository.csproj": {
+              "projectPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\NewsApp.Repository.csproj"
             }
           }
         }

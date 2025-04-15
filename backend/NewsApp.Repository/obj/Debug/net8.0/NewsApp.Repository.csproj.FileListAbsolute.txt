@@ -10,3 +10,16 @@ C:\Users\123ma\source\repos\newsapp\NewsApp.Repository\obj\Debug\net8.0\NewsApp.
 C:\Users\123ma\source\repos\newsapp\NewsApp.Repository\obj\Debug\net8.0\refint\NewsApp.Repository.dll
 C:\Users\123ma\source\repos\newsapp\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.pdb
 C:\Users\123ma\source\repos\newsapp\NewsApp.Repository\obj\Debug\net8.0\ref\NewsApp.Repository.dll
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\bin\Debug\net8.0\NewsApp.Repository.deps.json
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\bin\Debug\net8.0\NewsApp.Repository.dll
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\bin\Debug\net8.0\NewsApp.Repository.pdb
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.csproj.AssemblyReference.cache
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.AssemblyInfoInputs.cache
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.AssemblyInfo.cs
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.csproj.CoreCompileInputs.cache
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.sourcelink.json
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.dll
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\refint\NewsApp.Repository.dll
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\NewsApp.Repository.pdb
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\NewsApp.Repository\obj\Debug\net8.0\ref\NewsApp.Repository.dll

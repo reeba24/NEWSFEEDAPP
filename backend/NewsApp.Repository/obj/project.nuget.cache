@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zhWx1iDUv3Y=",
+  "dgSpecHash": "cHVCB49R06s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\123ma\\source\\repos\\newsapp\\NewsApp.Repository\\NewsApp.Repository.csproj",
+  "projectFilePath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\NewsApp.Repository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\123ma\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.3.0\\microsoft.aspnetcore.authentication.2.3.0.nupkg.sha512",
     "C:\\Users\\123ma\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.3.0\\microsoft.aspnetcore.authentication.abstractions.2.3.0.nupkg.sha512",

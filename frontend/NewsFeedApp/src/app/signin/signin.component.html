@@ -1,4 +1,3 @@
-
 <body>
   <img class="img1" src="assets/tech2.png">
   <label class="i"><b>Tech in the block</b></label>
@@ -23,18 +22,15 @@
 
         <div>
           <b class="pass">Password</b><br>
-          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" required [ngModelOptions]="{standalone: true}">
+          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [ngModelOptions]="{standalone: true}">
           <br>
-          <input type="checkbox" [(ngModel)]="showPassword" name="showPassword" [ngModelOptions]="{standalone: true}"> <b>Show Password</b>
         </div>
-
         <br>
         <div>
           <input type="checkbox" name="keepLoggedIn"> <b class="logged">Keep me logged in</b>
           <br><br>
         </div>
-
-        <button class="log" type="button" (click)="openPopup()">Log in</button>
+        <button class="log" type="button" [disabled]="!user || !password" (click)="openPopup()">Log in</button>
 
         <div class="popup" id="popup" *ngIf="popupVisible">
           <h3>Logged in</h3><br>

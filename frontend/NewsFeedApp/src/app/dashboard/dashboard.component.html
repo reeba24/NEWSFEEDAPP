@@ -1,0 +1,63 @@
+<div class="dashboard-container">
+
+  <div class="sidebar">
+    <h3><img class="logo" src="assets/tech2.png" alt="logo"> Tech in the Block</h3>
+    <button class="new-post">+ New Post</button>
+    <ul class="menu-list">
+      <li><img class="home" src="assets/home.png" alt="home"> &nbsp; Home</li>
+      <li><img class="foll" src="assets/following.png" alt="following"> &nbsp; Following</li>
+      <li><img class="saved" src="assets/saved.png" alt="saved"> &nbsp; Saved</li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="topbar">
+      <input type="text" placeholder="Search" class="search-input" />
+      <div class="icons">
+        <span><img class="imgbell" src="assets/notibell.png" alt="notifications"></span> &nbsp;
+
+        <span 
+          class="profile-wrapper" 
+          (click)="toggleDropdown()" 
+          (blur)="closeDropdown()" 
+          tabindex="0"
+        >
+          <img class="imgprofile" src="assets/profileicon.png" alt="profile">
+          <div class="dropdown" *ngIf="showDropdown">
+            <a (click)="editProfile()">Edit Profile</a>
+            <a (click)="logout()">Logout</a>
+          </div>
+        </span>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" type="button" (click)="openforyou()">For you</button>
+      <button class="tab" type="button" (click)="opentrending()">Trending</button>
+    </div>
+
+    <div class="post-grid">
+      <div class="post-card" *ngFor="let post of posts">
+        <h3>{{ post.title || 'Java Script' }}</h3>
+        <img [src]="post.imageUrl || 'assets/javascript.png'" alt="Post Image" />
+        <p><strong>Date:</strong> {{ post.date || 'May 7' }}</p>
+        <p><strong>Time:</strong> {{ post.readTime || '10 min' }}</p>
+        <div class="actions">
+          <button>Like</button>
+          <button>Add</button>
+          <button>Saved</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" *ngIf="logoutConfirmationVisible">
+  <div class="popup">
+    <p>Are you sure you want to log out?</p>
+    <div class="popup-buttons">
+      <button class="confirm-btn" (click)="confirmLogout()">Yes</button>
+      <button class="cancel-btn" (click)="cancelLogout()">No</button>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-signup',
@@ -17,17 +18,25 @@ export class SignupComponent {
   password1: string = '';
   popupVisible: boolean = false;
   successMessage: any;
-  constructor(private userService: UserService) {}
+
+  constructor(
+    private userService: UserService,
+    private router: Router 
+  ) {}
+
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
   openPopup(): void {
+    this.router.navigate(['/dashboard']);
+
     if (this.password !== this.password1) {
-      alert('Passwords do not match.');
+      this.successMessage = 'Passwords do not match.';
+      this.popupVisible = true;
       return;
     }
-  
+    
     const signupData = {
       email: this.user.email,
       password: this.password,
@@ -36,29 +45,21 @@ export class SignupComponent {
       about: this.user.about || 'No info provided',
       created_by: 'admin'
     };
-  
+    
     this.userService.signup(signupData).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.successMessage = response.message || 'Signup successful!';
-        this.popupVisible = true;
+      next: ({ message }) => {
+        this.successMessage = message || 'Signup successful!';
+        this.popupVisible = true;  
       },
-      error: (error) => {
-        console.error('Signup failed:', error);
-        if (error.status === 400 && error.error?.errors) {
-          const backendErrors = error.error.errors;
-          for (const field in backendErrors) {
-            if (backendErrors.hasOwnProperty(field)) {
-              alert(`Field: ${field}, Error: ${backendErrors[field].join(', ')}`);
-            }
-          }
-        } else {
-          alert('Signup failed. Please try again!');
-        }
+      error: ({ error }) => {
+        this.successMessage = error?.message || 'Signup failed. Please try again!';
+        this.popupVisible = true; 
       }
     });
   }
+
   closePopup(): void {
     this.popupVisible = false;
+    
   }
 }

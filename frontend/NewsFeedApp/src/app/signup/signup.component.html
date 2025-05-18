@@ -3,7 +3,6 @@
     <h1 class="signup">Sign Up</h1>
     <br>
     <form #myform="ngForm">
-
       <div>
         <b class="user">Enter Email</b>
         <br>
@@ -19,21 +18,17 @@
         <label><b>Last Name</b></label>
         <input type="text" name="lastName" [(ngModel)]="user.lastName" required [ngModelOptions]="{standalone: true}">
       </div>
-      <br>
-      <div>
-        <label><b>About</b></label>
-        <input type="text" name="about" [(ngModel)]="user.about" required [ngModelOptions]="{standalone: true}">
-      </div>
+      
       <br>
       <div>
         <b class="pass">Enter Password</b>
         <br>
-        <input type="{{ showPassword ? 'text' : 'password' }}" name="password" [(ngModel)]="password" required [ngModelOptions]="{standalone: true}">
+        <input type="{{ showPassword ? 'text' : 'password' }}" name="password" [(ngModel)]="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [ngModelOptions]="{standalone: true}">
         <span *ngIf="myform.controls['password']?.invalid">Password is required</span>
         <br><br>
         <b class="pass">Confirm Password</b>
         <br>
-        <input type="{{ showPassword ? 'text' : 'password' }}" name="password1" [(ngModel)]="password1" required [ngModelOptions]="{standalone: true}">
+        <input type="{{ showPassword ? 'text' : 'password' }}" name="password1" [(ngModel)]="password1" required  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [ngModelOptions]="{standalone: true}">
         <span *ngIf="myform.controls['password1']?.invalid">Confirm password is required</span>
         <br>
         <input type="checkbox" [(ngModel)]="showPassword" (change)="togglePassword()" [ngModelOptions]="{standalone: true}"> <b>Show Password</b>

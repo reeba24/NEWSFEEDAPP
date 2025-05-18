@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,12 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private baseUrl = 'https://localhost:7077/api/SignUp'; 
+  private baseUrl = 'https://localhost:7077/api/SignUp';  
 
   constructor(private http: HttpClient) {}
 
   signup(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/signup`, data);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(`${this.baseUrl}/signup`, data, { headers });
   }
 
   login(data: any): Observable<any> {

@@ -70,11 +70,11 @@ namespace NewsApp.Repository
 
             if (i > 0)
             {
-                return "Data inserted successfully with new u_id.";
+                return "SignUp successfully.";
             }
             else
             {
-                return "error data insertion unsuccessful";
+                return "SignUp unsuccessful";
             }
         }
     }

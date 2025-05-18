@@ -3,24 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\signuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\signuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{80F762A2-EDBE-479C-83ED-CBA5980EC334}|newsapp\\newsapp.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp\\controllers\\signupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80F762A2-EDBE-479C-83ED-CBA5980EC334}|newsapp\\newsapp.csproj|solutionrelative:newsapp\\controllers\\signupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\models\\signupresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\models\\signupresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\signuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\signuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{80F762A2-EDBE-479C-83ED-CBA5980EC334}|newsapp\\newsapp.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80F762A2-EDBE-479C-83ED-CBA5980EC334}|newsapp\\newsapp.csproj|solutionrelative:newsapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\interfaces\\isignuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\interfaces\\isignuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\models\\signupresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\models\\signupresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\models\\signup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\models\\signup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|c:\\users\\123ma\\source\\repos\\newsfeedapp\\backend\\newsapp.repository\\interfaces\\isignuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC8AE84D-9611-44B1-8720-D1135AF40BA1}|NewsApp.Repository\\NewsApp.Repository.csproj|solutionrelative:newsapp.repository\\interfaces\\isignuprepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,50 +42,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SignUpRepository.cs",
-              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\SignUpRepository.cs",
-              "RelativeDocumentMoniker": "NewsApp.Repository\\SignUpRepository.cs",
-              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\SignUpRepository.cs",
-              "RelativeToolTip": "NewsApp.Repository\\SignUpRepository.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAAAFAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:20:17.748Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SignUpController.cs",
-              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\Controllers\\SignUpController.cs",
-              "RelativeDocumentMoniker": "newsapp\\Controllers\\SignUpController.cs",
-              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\Controllers\\SignUpController.cs",
-              "RelativeToolTip": "newsapp\\Controllers\\SignUpController.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Models\\Login.cs",
+              "RelativeDocumentMoniker": "NewsApp.Repository\\Models\\Login.cs",
+              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Models\\Login.cs",
+              "RelativeToolTip": "NewsApp.Repository\\Models\\Login.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:20:10.702Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-06T07:38:50.415Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ISignUpRepository.cs",
-              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
-              "RelativeDocumentMoniker": "NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
-              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
-              "RelativeToolTip": "NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:19:55.08Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "SignUpResponse.cs",
               "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Models\\SignUpResponse.cs",
               "RelativeDocumentMoniker": "NewsApp.Repository\\Models\\SignUpResponse.cs",
@@ -81,21 +66,80 @@
               "RelativeToolTip": "NewsApp.Repository\\Models\\SignUpResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T16:19:54.028Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-15T16:19:54.028Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\Program.cs",
               "RelativeDocumentMoniker": "newsapp\\Program.cs",
               "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\Program.cs",
               "RelativeToolTip": "newsapp\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAABIAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-15T08:34:49.672Z",
+              "WhenOpened": "2025-04-15T08:34:49.672Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Class1.cs",
+              "RelativeDocumentMoniker": "NewsApp.Repository\\Class1.cs",
+              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Class1.cs",
+              "RelativeToolTip": "NewsApp.Repository\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T16:52:26.621Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SignUpController.cs",
+              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\Controllers\\SignUpController.cs",
+              "RelativeDocumentMoniker": "newsapp\\Controllers\\SignUpController.cs",
+              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\Controllers\\SignUpController.cs",
+              "RelativeToolTip": "newsapp\\Controllers\\SignUpController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwEAAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T16:20:10.702Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SignUpRepository.cs",
+              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\SignUpRepository.cs",
+              "RelativeDocumentMoniker": "NewsApp.Repository\\SignUpRepository.cs",
+              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\SignUpRepository.cs",
+              "RelativeToolTip": "NewsApp.Repository\\SignUpRepository.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAYwD8AAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T16:20:17.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ISignUpRepository.cs",
+              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
+              "RelativeDocumentMoniker": "NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
+              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
+              "RelativeToolTip": "NewsApp.Repository\\Interfaces\\ISignUpRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-15T16:19:55.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Signup.cs",
+              "DocumentMoniker": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Models\\Signup.cs",
+              "RelativeDocumentMoniker": "NewsApp.Repository\\Models\\Signup.cs",
+              "ToolTip": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\NewsApp.Repository\\Models\\Signup.cs",
+              "RelativeToolTip": "NewsApp.Repository\\Models\\Signup.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAYwA0AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T16:47:31.942Z"
             }
           ]
         }

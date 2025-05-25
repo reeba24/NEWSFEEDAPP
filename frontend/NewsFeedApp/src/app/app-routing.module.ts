@@ -7,6 +7,7 @@ import { SigninComponent } from './signin/signin.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForyouComponent } from './foryou/foryou.component';
 import { TrendingComponent } from './trending/trending.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
   { path: '', component: SigninComponent },
@@ -14,7 +15,8 @@ export const routes: Routes = [
   {path: 'forgotpass', component: ForgotpassComponent},
   { path: 'dashboard', component: DashboardComponent },
   { path: 'foryou', component:ForyouComponent},
-  { path: 'trending', component: TrendingComponent}
+  { path: 'trending', component: TrendingComponent},
+  {path: 'home', component: HomeComponent}
 
 ];
 

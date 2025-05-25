@@ -1,1 +1,19 @@
-<p>foryou works!</p>
+
+
+<div class="news-tile-container">
+  <div *ngFor="let news of newsList" class="news-tile">
+    <img 
+      *ngIf="news.imageBase64"
+      [src]="'data:image/jpeg;base64,' + news.imageBase64"
+      alt="News image"
+    />
+    
+    <h3>{{ news.news_title }}</h3>
+    
+    <p>{{ news.contents }}</p>
+    
+    <p class="author-info">
+      By {{ news.first_name }} {{ news.last_name }} | {{ news.created_time | date: 'medium' }}
+    </p>
+  </div>
+</div>

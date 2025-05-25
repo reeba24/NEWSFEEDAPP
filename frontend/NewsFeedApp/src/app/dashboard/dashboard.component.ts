@@ -1,38 +1,52 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PostService } from '../services/post.service';
+
 import { Router, RouterModule } from '@angular/router';
+import { ForyouComponent } from '../foryou/foryou.component';
+import { TrendingComponent } from '../trending/trending.component';
+import { NewsService, TileData } from '../services/news.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ForyouComponent, TrendingComponent],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  posts: any[] = [];
+  
+  newsList: TileData[] = [];
   showDropdown = false;
   logoutConfirmationVisible = false;
 
-  constructor(private postService: PostService, private router: Router) {}
+  activeTab: 'forYou' | 'trending' = 'forYou';
+
+  constructor(
+     
+    private router: Router, 
+    private newsService: NewsService
+  ) {}
 
   ngOnInit(): void {
     console.log('DashboardComponent initialized');
-    this.postService.getPosts().subscribe(data => {
-      this.posts = data;
-      console.log('Posts loaded:', this.posts.length);
+
+    
+
+    this.newsService.getAllNews().subscribe({
+      next: (data) => {
+        this.newsList = [...data];
+        console.log('News loaded:', this.newsList.length);
+      },
+      error: (err) => console.error('Failed to load news', err)
     });
   }
 
   openforyou(): void {
-    console.log('Navigating to For You');
-    this.router.navigate(['/foryou']);
+    this.activeTab = 'forYou';
   }
 
   opentrending(): void {
-    console.log('Navigating to Trending');
-    this.router.navigate(['/trending']);
+    this.activeTab = 'trending';
   }
 
   toggleDropdown(): void {
@@ -69,5 +83,9 @@ export class DashboardComponent implements OnInit {
   cancelLogout(): void {
     console.log('Logout cancelled');
     this.logoutConfirmationVisible = false;
+  }
+
+  homeclick(): void {
+    this.activeTab = 'forYou';
   }
 }

@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TileData } from '../services/news.service';
 
 @Component({
   selector: 'app-foryou',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './foryou.component.html',
-  styleUrl: './foryou.component.css'
+  styleUrls: ['./foryou.component.css']
 })
-export class ForyouComponent {
+export class ForyouComponent implements OnChanges {
+  @Input() newsList: TileData[] = [];
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['newsList']) {
+      console.log('ForyouComponent detected newsList change:', this.newsList);
+    }
+  }
 }

@@ -22,7 +22,9 @@
 
         <div>
           <b class="pass">Password</b><br>
-          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$" [ngModelOptions]="{standalone: true}">
+          <input [type]="showPassword ? 'text' : 'password'" name="password" [(ngModel)]="password" required
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+            [ngModelOptions]="{standalone: true}">
           <br>
         </div>
         <br>
@@ -30,12 +32,8 @@
           <input type="checkbox" name="keepLoggedIn"> <b class="logged">Keep me logged in</b>
           <br><br>
         </div>
-        <button class="log" type="button" [disabled]="!user || !password" (click)="openPopup()">Log in</button>
 
-        <div class="popup" id="popup" *ngIf="popupVisible">
-          <h3>Logged in</h3><br>
-          <button class="ok" type="button" (click)="closePopup()">OK</button>
-        </div>
+        <button class="log" type="button" [disabled]="!user || !password" (click)="login()">Log in</button>
 
         <a href="/forgotpass">Forgot password?</a>
       </div>

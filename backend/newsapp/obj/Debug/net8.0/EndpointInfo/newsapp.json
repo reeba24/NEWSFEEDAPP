@@ -5,6 +5,30 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/ImageUpload/upload": {
+      "post": {
+        "tags": [
+          "ImageUpload"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/News/all": {
+      "get": {
+        "tags": [
+          "News"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/SignUp/api/test": {
       "get": {
         "tags": [

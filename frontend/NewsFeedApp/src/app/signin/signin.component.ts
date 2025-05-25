@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../services/user.service'; 
-import { Router } from '@angular/router'; 
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signin',
@@ -13,34 +13,27 @@ import { Router } from '@angular/router';
 })
 export class SigninComponent {
   showPassword: boolean = false;
-  popupVisible: boolean = false;
   user = '';
   password = '';
 
   constructor(
     private userService: UserService,
-    private router: Router 
+    private router: Router
   ) {}
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
 
-  openPopup(): void {
+  login(): void {
     const loginData = { email: this.user, password: this.password };
     this.userService.login(loginData).subscribe({
       next: () => {
-        this.popupVisible = true;
+        this.router.navigate(['/dashboard']);
       },
       error: () => {
         alert('Invalid username or password.');
-        //this  error.. 
       }
     });
-  }
-
-  closePopup(): void {
-    this.popupVisible = false;
-    this.router.navigate(['/dashboard']); 
   }
 }

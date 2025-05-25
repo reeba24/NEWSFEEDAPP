@@ -9,6 +9,7 @@ import { DashboardComponent } from './app/dashboard/dashboard.component';
 import { ForyouComponent } from './app/foryou/foryou.component';
 import { TrendingComponent } from './app/trending/trending.component';
 import { Component } from '@angular/core';
+import { HomeComponent } from './app/home/home.component';
 
 
 
@@ -18,7 +19,8 @@ const appRoutes = [
   { path: 'forgotpass', component: ForgotpassComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'foryou', component: ForyouComponent},
-  {path : 'trending', component: TrendingComponent}
+  {path : 'trending', component: TrendingComponent},
+  {path: 'home', component: HomeComponent }
 
 ];
 

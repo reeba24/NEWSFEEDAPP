@@ -24,12 +24,16 @@
 .saved {
   height: 20px;
   width: 20px;
-}
 
+}
+.menu-list li:hover {
+  color: #42d157;
+}
 .sidebar {
   width: 200px;
   background-color: #ffffff;
   padding: 20px;
+  
 }
 
 .sidebar h2 {
@@ -100,8 +104,8 @@
 }
 
 .tab.active {
-  background-color: #e8ecf5;
-  color: rgb(0, 0, 0);
+  background-color: #05450f;
+  color: rgb(255, 255, 255);
 }
 
 .tab.active:hover {
@@ -110,8 +114,10 @@
 }
 .post-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .post-card {
@@ -173,15 +179,20 @@
   top: 0;
   left: 0;
   right: 0;
+  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(249, 245, 245, 0.5);
+  
+  
 }
 .popup {
   background: white;
   padding: 20px 30px;
   text-align: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
 }
 
 .popup-buttons button {
@@ -189,6 +200,9 @@
   padding: 8px 16px;
   background: #05450f;
   color: white;
+    border-radius: 10px;
+
+
 }
 .confirm-btn {
   background-color: #05450f;

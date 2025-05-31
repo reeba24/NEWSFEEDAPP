@@ -44,7 +44,7 @@ namespace NewsApp.Repository
                 : signup.modified_time.ToString("yyyy-MM-dd HH:mm:ss");
 
             
-            signup.user_role_key = newUId;
+            signup.user_role_key =6;
 
             
             SqlCommand cmd = new SqlCommand(
@@ -62,7 +62,7 @@ namespace NewsApp.Repository
                 "'" + createdFormatted + "', " +
                 "'" + signup.created_by + "', " +
                 "'" + signup.about + "', " +
-                newUId + ", " + 
+                signup.user_role_key + ", " +
                 "'" + modifiedFormatted + "')", con);
 
             int i = cmd.ExecuteNonQuery();

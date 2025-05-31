@@ -10,6 +10,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "newsapp.Controllers.LoginController",
+    "Method": "SignIn",
+    "RelativePath": "api/Login/signin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "newsapp.Models.login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "newsapp.Controllers.NewsController",
     "Method": "GetAllNews",
     "RelativePath": "api/News/all",

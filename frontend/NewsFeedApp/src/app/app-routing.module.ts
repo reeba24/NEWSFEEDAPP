@@ -9,6 +9,7 @@ import { ForyouComponent } from './foryou/foryou.component';
 import { TrendingComponent } from './trending/trending.component';
 import { HomeComponent } from './home/home.component';
 
+
 export const routes: Routes = [
   { path: '', component: SigninComponent },
   { path: 'signup', component: SignupComponent },

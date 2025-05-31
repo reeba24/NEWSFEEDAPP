@@ -20,6 +20,7 @@ export class UserService {
   }
 
   login(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, data, { responseType: 'text' });
-  }
+  return this.http.post('https://localhost:7077/api/login/signin', data, { responseType: 'json' });
+}
+
 }

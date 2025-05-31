@@ -3,7 +3,7 @@
     <h3><img class="logo" src="assets/tech2.png" alt="logo"> Tech in the Block</h3>
     <button class="new-post">+ New Post</button>
     <ul class="menu-list">
-      <li><img class="home" src="assets/home.png" alt="home" (click)="homeclick()"> &nbsp; Home</li>
+      <li (click)="homeclick()"><img class="home" src="assets/home.png" alt="home" > &nbsp; Home</li>
       <li><img class="foll" src="assets/following.png" alt="following"> &nbsp; Following</li>
       <li><img class="saved" src="assets/saved.png" alt="saved"> &nbsp; Saved</li>
     </ul>
@@ -38,7 +38,7 @@
     <div class="post-grid">
       
 
-      <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList"></app-foryou>
+      <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList" ></app-foryou>
       <app-trending *ngIf="activeTab === 'trending'"></app-trending>
     </div>
   </div>

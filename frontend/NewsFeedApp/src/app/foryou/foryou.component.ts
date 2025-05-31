@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TileData } from '../services/news.service';
 
@@ -9,12 +9,20 @@ import { TileData } from '../services/news.service';
   templateUrl: './foryou.component.html',
   styleUrls: ['./foryou.component.css']
 })
-export class ForyouComponent implements OnChanges {
+export class ForyouComponent implements OnInit {
   @Input() newsList: TileData[] = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['newsList']) {
-      console.log('ForyouComponent detected newsList change:', this.newsList);
-    }
+  selectedNews: TileData | null = null;
+
+  ngOnInit(): void {
+    console.log('ForyouComponent received newsList:', this.newsList);
+  }
+
+  selecttile(news: TileData): void {
+    this.selectedNews = news;
+  }
+
+  clearSelection(): void {
+    this.selectedNews = null;
   }
 }

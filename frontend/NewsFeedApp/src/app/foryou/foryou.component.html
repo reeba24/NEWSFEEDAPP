@@ -1,19 +1,16 @@
-
-
 <div class="news-tile-container">
-  <div *ngFor="let news of newsList" class="news-tile">
-    <img 
-      *ngIf="news.imageBase64"
-      [src]="'data:image/jpeg;base64,' + news.imageBase64"
-      alt="News image"
-    />
-    
+  <div *ngFor="let news of newsList" class="news-tile" (click)="selecttile(news)">
     <h3>{{ news.news_title }}</h3>
-    
-    <p>{{ news.contents }}</p>
-    
     <p class="author-info">
       By {{ news.first_name }} {{ news.last_name }} | {{ news.created_time | date: 'medium' }}
     </p>
+    <img *ngIf="news.imageBase64"
+      [src]="'data:image/jpeg;base64,' + news.imageBase64" alt="News image"/>
+      <div>
+        <i class="fi fi-rr-social-network" style="color: #05450f;"> {{news.likes}}</i> &nbsp;&nbsp;
+        <i class="fi fi-rr-hand" style="color: #05450f;">{{news.unlikes}}</i> &nbsp;&nbsp;
+        <i class="fi fi-rr-comment-alt" style="color: #05450f;"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="fi fi-rr-bookmark" style="color: #05450f;"></i>
+        </div>
   </div>
 </div>

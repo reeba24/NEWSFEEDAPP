@@ -15,6 +15,7 @@ export class SigninComponent {
   showPassword: boolean = false;
   user = '';
   password = '';
+  loginError: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -32,7 +33,7 @@ export class SigninComponent {
         this.router.navigate(['/dashboard']);
       },
       error: () => {
-        alert('Invalid username or password.');
+        this.loginError = true;
       }
     });
   }

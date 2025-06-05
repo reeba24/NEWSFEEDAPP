@@ -27,6 +27,9 @@
             [ngModelOptions]="{standalone: true}">
           <br>
         </div>
+          <div *ngIf="loginError" style="color: red; font-size: 14px; margin-top: 4px;">
+    Invalid email or password.
+  </div>
         <br>
         <div>
           <input type="checkbox" name="keepLoggedIn"> <b class="logged">Keep me logged in</b>

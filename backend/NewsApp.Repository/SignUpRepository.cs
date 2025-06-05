@@ -45,8 +45,9 @@ namespace NewsApp.Repository
 
             
             signup.user_role_key =6;
+            signup.active = 1;
 
-            
+
             SqlCommand cmd = new SqlCommand(
                 "INSERT INTO USERS (" +
                 "u_id, email, password, first_name, last_name, email_verified, active, created, " +

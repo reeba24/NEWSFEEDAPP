@@ -3,9 +3,15 @@
     <h3><img class="logo" src="assets/tech2.png" alt="logo"> Tech in the Block</h3>
     <button class="new-post">+ New Post</button>
     <ul class="menu-list">
-      <li (click)="homeclick()"><img class="home" src="assets/home.png" alt="home" > &nbsp; Home</li>
-      <li><img class="foll" src="assets/following.png" alt="following"> &nbsp; Following</li>
-      <li><img class="saved" src="assets/saved.png" alt="saved"> &nbsp; Saved</li>
+      <li (click)="homeclick()">
+        <i class="fi fi-rr-house-chimney" style="color: rgb(9, 78, 35)"></i> &nbsp; Home
+      </li>
+      <li>
+        <i class="fi fi-rr-following" style="color: rgb(9, 78, 35)"></i> &nbsp; Following
+      </li>
+      <li>
+        <i class="fi fi-rr-bookmark" style="color: rgb(9, 78, 35)"></i> &nbsp; Saved
+      </li>
     </ul>
   </div>
 
@@ -13,7 +19,7 @@
     <div class="topbar">
       <input type="text" placeholder="Search" class="search-input" />
       <div class="icons">
-        <span><img class="imgbell" src="assets/notibell.png" alt="notifications"></span> &nbsp;
+        <span><i class="fi fi-rr-bell" style="height: 40px; width: 30px;color: rgb(9, 78, 35)"></i></span> &nbsp;
 
         <span 
           class="profile-wrapper" 
@@ -21,7 +27,7 @@
           (blur)="closeDropdown()" 
           tabindex="0"
         >
-          <img class="imgprofile" src="assets/profileicon.png" alt="profile">
+          <i class="fi fi-rr-user" style="height: 40px; width: 30px; color: rgb(9, 78, 35);"></i> 
           <div class="dropdown" *ngIf="showDropdown">
             <a (click)="editProfile()">Edit Profile</a>
             <a (click)="logout()">Logout</a>
@@ -30,19 +36,28 @@
       </div>
     </div>
 
-    <div class="tabs">
-      <button class="tab" type="button" [class.active]="activeTab === 'forYou'" (click)="openforyou()">For you</button>
-      <button class="tab" type="button" [class.active]="activeTab === 'trending'" (click)="opentrending()">Trending</button>
-    </div>
+<!-- TABS -->
+<div class="tabs" *ngIf="activeTab !== 'tilenewsdetails'">
+  <button class="tab" [class.active]="activeTab === 'forYou'" (click)="openforyou()">For You</button>
+  <button class="tab" [class.active]="activeTab === 'trending'" (click)="opentrending()">Trending</button>
+</div>
 
-    <div class="post-grid">
-      
+<!-- Only show the grid for tiles -->
+<div class="post-grid" *ngIf="activeTab !== 'tilenewsdetails'">
+  <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList" (tileClicked)="opentiledata($event)"></app-foryou>
+  <app-trending *ngIf="activeTab === 'trending'"></app-trending>
+</div>
 
-      <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList" ></app-foryou>
-      <app-trending *ngIf="activeTab === 'trending'"></app-trending>
+<!-- Show the full-width detail view outside the grid -->
+<app-tilenewsdetails 
+  *ngIf="activeTab === 'tilenewsdetails' && selectedNewsItem"
+  [newsItem]="selectedNewsItem"
+  (backClicked)="openforyou()">
+</app-tilenewsdetails>
+
     </div>
   </div>
-</div>
+
 
 <div class="popup-overlay" *ngIf="logoutConfirmationVisible">
   <div class="popup">

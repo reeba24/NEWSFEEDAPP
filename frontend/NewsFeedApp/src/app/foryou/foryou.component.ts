@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TileData } from '../services/news.service';
+
 
 @Component({
   selector: 'app-foryou',
@@ -11,18 +12,14 @@ import { TileData } from '../services/news.service';
 })
 export class ForyouComponent implements OnInit {
   @Input() newsList: TileData[] = [];
-
-  selectedNews: TileData | null = null;
+  @Input() newsItem: TileData | null = null;
+  @Output() tileClicked = new EventEmitter<TileData>();  
 
   ngOnInit(): void {
     console.log('ForyouComponent received newsList:', this.newsList);
   }
 
   selecttile(news: TileData): void {
-    this.selectedNews = news;
-  }
-
-  clearSelection(): void {
-    this.selectedNews = null;
+    this.tileClicked.emit(news);  
   }
 }

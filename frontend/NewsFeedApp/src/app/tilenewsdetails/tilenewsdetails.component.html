@@ -1,0 +1,34 @@
+<div class="page-container">
+  <div class="news-wrapper" *ngIf="newsItem">
+    <div class="back-btn" (click)="goBack()">
+      <i class="fi fi-rr-arrow-small-left" style="color:#05450f; font-size: 30px;"></i>
+    </div>
+
+    <h2>{{ newsItem.news_title }}</h2>
+
+    <p style="color: rgb(90, 95, 99); font-size: 12px; font-style: italic;">
+      By {{ newsItem.first_name }} {{ newsItem.last_name }} on {{ newsItem.created_time | date }}
+    </p>
+
+    <p>{{ newsItem.contents }}</p>
+    <br>
+
+    <div style="display: flex; ">
+      <h3 style="margin: 0;">{{ newsItem.comments.length }} Comments</h3> &nbsp;
+      <i class="fi fi-rr-comment-alt"
+         style="cursor: pointer; font-size: 24px; color: #05450f;"
+         (click)="toggleComments()">
+      </i>
+    </div>
+
+    <div *ngIf="showComments && newsItem.comments.length > 0" style="margin-top: 10px;">
+      <ul style="padding-left: 20px;">
+        <li *ngFor="let comment of newsItem.comments">
+          {{ comment.comments }} <small>( {{ comment.u_id }} )</small>
+        </li>
+      </ul>
+    </div>
+    <br>
+    <input type="text" placeholder="Add comment" class="search-input" />&nbsp;&nbsp;&nbsp;<i class="fi fi-rr-paper-plane" style="color:#05450f; font-size: 20px;"></i>
+  </div>
+</div>

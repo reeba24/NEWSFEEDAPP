@@ -1,0 +1,46 @@
+<div class="edit-profile-container">
+  <h3 style="color:  #145e14;"><i class="fi fi-rr-settings-sliders"></i> &nbsp; Edit Profile</h3>
+
+  <div class="section">
+    <p class="section-title"><i class="fi fi-rr-edit"></i>&nbsp;Selected Preferences</p>
+    <div class="preference-list">
+      <span class="preference selected"
+            *ngFor="let prefId of selectedPreferences"
+            (click)="togglePreference(prefId)">
+        {{ prefOptions[prefId - 1] }}
+      </span>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title"><i class="fi fi-rr-edit"></i>&nbsp;Select More Preferences</p>
+    <div class="preference-list">
+      <span class="preference"
+            *ngFor="let prefId of unselectedPreferences"
+            (click)="togglePreference(prefId)">
+        {{ prefOptions[prefId - 1] }}
+      </span>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-title"><i class="fi fi-rr-edit"></i>&nbsp;Personal Details</p>
+    <div class="form-row">
+      <label for="firstName">First Name</label>
+      <input id="firstName" type="text" [(ngModel)]="firstName" />
+    </div>
+    <div class="form-row">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" type="text" [(ngModel)]="lastName" />
+    </div>
+    <div class="form-row">
+      <label for="about">About</label>
+      <input id="about" type="text" [(ngModel)]="about" />
+    </div>
+  </div>
+
+  <div class="button-group">
+    <button class="save-btn" (click)="saveProfile()">Save</button>
+    <button class="cancel-btn" (click)="cancel()">Cancel</button>
+  </div>
+</div>

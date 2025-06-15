@@ -1,63 +1,82 @@
 <div class="dashboard-container">
   <div class="sidebar">
-    <h3><img class="logo" src="assets/tech2.png" alt="logo"> Tech in the Block</h3>
-    <button class="new-post">+ New Post</button>
+    <h3><img class="logo" src="assets/tech2.png" alt="logo"> News in the Block</h3>
+    <button class="new-post" (click)="opennewpost()">+ New Post</button>
+    
     <ul class="menu-list">
       <li (click)="homeclick()">
-        <i class="fi fi-rr-house-chimney" style="color: rgb(9, 78, 35)"></i> &nbsp; Home
+        <i class="fi fi-rr-house-chimney" style="color: rgb(9, 78, 35)"></i> &nbsp;Home
       </li>
-      <li>
-        <i class="fi fi-rr-following" style="color: rgb(9, 78, 35)"></i> &nbsp; Following
+      <li (click)="followingclick()">
+        <i class="fi fi-rr-following" style="color: rgb(9, 78, 35)"></i> &nbsp;Following
       </li>
-      <li>
-        <i class="fi fi-rr-bookmark" style="color: rgb(9, 78, 35)"></i> &nbsp; Saved
+      <li (click)="savedclick()">
+        <i class="fi fi-rr-bookmark" style="color: rgb(9, 78, 35)"></i> &nbsp;Saved
       </li>
     </ul>
   </div>
 
   <div class="main-content">
     <div class="topbar">
-      <input type="text" placeholder="Search" class="search-input" />
+      <input
+        type="text"
+        placeholder="Search"
+        class="search-input"
+        [(ngModel)]="searchText"
+        (input)="onSearch()" />
       <div class="icons">
-        <span><i class="fi fi-rr-bell" style="height: 40px; width: 30px;color: rgb(9, 78, 35)"></i></span> &nbsp;
+        <span (click)="noticlick()"><i class="fi fi-rr-bell" style="height: 40px; width: 30px;color: rgb(9, 78, 35)"></i></span> &nbsp;
 
         <span 
           class="profile-wrapper" 
           (click)="toggleDropdown()" 
           (blur)="closeDropdown()" 
-          tabindex="0"
-        >
+          tabindex="0">
+        
           <i class="fi fi-rr-user" style="height: 40px; width: 30px; color: rgb(9, 78, 35);"></i> 
           <div class="dropdown" *ngIf="showDropdown">
-            <a (click)="editProfile()">Edit Profile</a>
+            <a [class.active]="activeTab === 'editprofile'" (click)="openeditprofile()">Edit Profile</a>
             <a (click)="logout()">Logout</a>
           </div>
         </span>
       </div>
     </div>
+    <app-search
+      *ngIf="isSearching"
+      [newsList]="searchResults"
+      (tileClicked)="opentiledata($event)">
+    </app-search>
 
-<!-- TABS -->
-<div class="tabs" *ngIf="activeTab !== 'tilenewsdetails'">
-  <button class="tab" [class.active]="activeTab === 'forYou'" (click)="openforyou()">For You</button>
-  <button class="tab" [class.active]="activeTab === 'trending'" (click)="opentrending()">Trending</button>
-</div>
-
-<!-- Only show the grid for tiles -->
-<div class="post-grid" *ngIf="activeTab !== 'tilenewsdetails'">
-  <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList" (tileClicked)="opentiledata($event)"></app-foryou>
-  <app-trending *ngIf="activeTab === 'trending'"></app-trending>
-</div>
-
-<!-- Show the full-width detail view outside the grid -->
-<app-tilenewsdetails 
-  *ngIf="activeTab === 'tilenewsdetails' && selectedNewsItem"
-  [newsItem]="selectedNewsItem"
-  (backClicked)="openforyou()">
-</app-tilenewsdetails>
-
+    <div class="tabs" *ngIf="!isSearching && activeTab !== 'tilenewsdetails' && activeTab !== 'editprofile' && activeTab !== 'newpost' && activeTab !== 'following' && activeTab !== 'saved' ">
+      <button class="tab" [class.active]="activeTab === 'forYou'" (click)="openforyou()">For You</button>
+      <button class="tab" [class.active]="activeTab === 'trending'" (click)="opentrending()">Trending</button>
     </div>
-  </div>
 
+    <div class="post-grid" *ngIf="!isSearching && activeTab !== 'tilenewsdetails'">
+      <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList" (tileClicked)="opentiledata($event)"></app-foryou>
+      <app-trending *ngIf="activeTab === 'trending'"></app-trending>
+      <app-following *ngIf="activeTab === 'following'"></app-following>
+      
+    </div>
+
+    <app-tilenewsdetails 
+      *ngIf="activeTab === 'tilenewsdetails' &&  selectedNewsItem"
+      [newsItem]="selectedNewsItem"
+      (backClicked)="openforyou()">
+    </app-tilenewsdetails>
+    <app-saved *ngIf="activeTab === 'saved'" (tileClicked)="opentiledata($event)"></app-saved>
+
+    <app-editprofile
+      *ngIf="activeTab === 'editprofile'"
+      (backClicked)="openforyou()">
+    </app-editprofile>
+
+    <app-newpost
+      *ngIf="activeTab === 'newpost'">
+    </app-newpost>
+  </div>
+  <app-notifications *ngIf="showNotifications" (close)="closeNotifications()"></app-notifications>
+</div>
 
 <div class="popup-overlay" *ngIf="logoutConfirmationVisible">
   <div class="popup">

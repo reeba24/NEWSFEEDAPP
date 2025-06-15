@@ -1,0 +1,41 @@
+.newspost-container {
+  padding: 30px;
+  width: 100%;
+  max-width: 600px;
+  background-color: #fff;
+  margin-left: 0;
+  padding-left: 0;
+  
+}
+input[type="text"] {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+#prefr{
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+
+}
+
+textarea{
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-family:Arial, Helvetica, sans-serif;
+}
+.sub{
+  background-color: white;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.sub:hover{
+    background-color: #578e57;
+}

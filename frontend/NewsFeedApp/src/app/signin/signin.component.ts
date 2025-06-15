@@ -29,7 +29,8 @@ export class SigninComponent {
   login(): void {
     const loginData = { email: this.user, password: this.password };
     this.userService.login(loginData).subscribe({
-      next: () => {
+      next: (response) => {
+        localStorage.setItem('userId', response.u_id);
         this.router.navigate(['/dashboard']);
       },
       error: () => {

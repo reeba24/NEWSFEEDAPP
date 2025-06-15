@@ -1,5 +1,53 @@
 [
   {
+    "ContainingType": "newsapp.Controllers.CommentsController",
+    "Method": "AddComment",
+    "RelativePath": "api/Comments",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "comment",
+        "Type": "NewsApp.Repository.Models.NewsComment",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.EditProfileController",
+    "Method": "GetProfile",
+    "RelativePath": "api/EditProfile/GetProfile/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.EditProfileController",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/EditProfile/Update",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "profile",
+        "Type": "NewsApp.Repository.Models.EditProfile",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "newsapp.Controllers.ImageUploadController",
     "Method": "UploadImages",
     "RelativePath": "api/ImageUpload/upload",
@@ -7,6 +55,38 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.LikeUnlikeController",
+    "Method": "Like",
+    "RelativePath": "api/LikeUnlike/like",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "like",
+        "Type": "NewsApp.Repository.Models.Like",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.LikeUnlikeController",
+    "Method": "Unlike",
+    "RelativePath": "api/LikeUnlike/unlike",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "like",
+        "Type": "NewsApp.Repository.Models.Like",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -26,6 +106,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "newsapp.Controllers.NewPostController",
+    "Method": "CreatePost",
+    "RelativePath": "api/NewPost",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "post",
+        "Type": "NewsApp.Repository.Models.NewsPost",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.NewPostController",
+    "Method": "GetAllNews",
+    "RelativePath": "api/NewPost",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "newsapp.Controllers.NewsController",
     "Method": "GetAllNews",
     "RelativePath": "api/News/all",
@@ -33,6 +139,102 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.NotificationController",
+    "Method": "ClearAll",
+    "RelativePath": "api/Notification/ClearAll/{userId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.NotificationController",
+    "Method": "GetNotifications",
+    "RelativePath": "api/Notification/GetNotifications/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.NotificationController",
+    "Method": "MarkAsRead",
+    "RelativePath": "api/Notification/MarkAsRead/{notificationId}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "notificationId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.ResetPasswordController",
+    "Method": "ResetPassword",
+    "RelativePath": "api/ResetPassword",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NewsApp.Repository.Models.ResetPasswordRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SavedController",
+    "Method": "GetSavedNews",
+    "RelativePath": "api/Saved/getsavednews/{u_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "u_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SavedController",
+    "Method": "SaveNews",
+    "RelativePath": "api/Saved/save",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "saved",
+        "Type": "NewsApp.Repository.Models.Saved",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {

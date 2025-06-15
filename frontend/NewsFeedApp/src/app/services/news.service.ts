@@ -33,4 +33,5 @@ export class NewsService {
   getAllNews(): Observable<TileData[]> {
     return this.http.get<TileData[]>(this.apiUrl);
   }
+  
 }

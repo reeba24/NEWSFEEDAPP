@@ -10,15 +10,24 @@
       By {{ newsItem.first_name }} {{ newsItem.last_name }} on {{ newsItem.created_time | date }}
     </p>
 
+    <img *ngIf="newsItem?.imageBase64"
+     [src]="'data:image/jpeg;base64,' + newsItem.imageBase64"
+     alt="News image"
+     style="width: 100%; height: 300px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; align-items: center;" />
+    
+
     <p>{{ newsItem.contents }}</p>
     <br>
 
-    <div style="display: flex; ">
-      <h3 style="margin: 0;">{{ newsItem.comments.length }} Comments</h3> &nbsp;
+    <div style="display: flex;">
+      <p><b>Comments</b></p> &nbsp;&nbsp;&nbsp;
       <i class="fi fi-rr-comment-alt"
          style="cursor: pointer; font-size: 24px; color: #05450f;"
          (click)="toggleComments()">
-      </i>
+      </i> &nbsp;&nbsp;&nbsp;
+      <i (click)="like()" class="fi fi-rr-social-network" style="color: #05450f; cursor: pointer;"> {{newsItem.likes}}</i> &nbsp;&nbsp;
+      <i (click)="unlike()" class="fi fi-rr-hand" style="color: #05450f; cursor: pointer;">{{newsItem.unlikes}}</i> &nbsp;&nbsp;
+      <i (click)="save()" class="fi fi-rr-bookmark" style="color: #05450f; cursor: pointer;"></i> &nbsp;&nbsp;
     </div>
 
     <div *ngIf="showComments && newsItem.comments.length > 0" style="margin-top: 10px;">
@@ -28,7 +37,10 @@
         </li>
       </ul>
     </div>
+
     <br>
-    <input type="text" placeholder="Add comment" class="search-input" />&nbsp;&nbsp;&nbsp;<i class="fi fi-rr-paper-plane" style="color:#05450f; font-size: 20px;"></i>
+    <input type="text" placeholder="Add comment" [(ngModel)]="newComment" class="search-input" />&nbsp;&nbsp;&nbsp;
+    <i class="fi fi-rr-paper-plane" style="color:#05450f; font-size: 20px;" (click)="addComment()"></i>
   </div>
+  {{ successMessage }}
 </div>

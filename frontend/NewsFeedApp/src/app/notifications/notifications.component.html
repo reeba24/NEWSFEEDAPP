@@ -1,0 +1,11 @@
+<div class="notification-container">
+  <h2>Notifications &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fi fi-rr-exit" style="cursor: pointer;"(click)="close.emit()"></i>
+  </h2>
+  <button (click)="clearAll()">Clear All</button>
+
+  <div *ngFor="let n of notifications" class="notification-item">
+    {{ n.notification_text }}
+    <button (click)="markAsRead(n.notification_id)"><i class="fi fi-rr-circle-xmark"></i></button>
+  </div>
+</div>

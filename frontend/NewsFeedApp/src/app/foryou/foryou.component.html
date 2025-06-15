@@ -4,13 +4,12 @@
     <p class="author-info">
       By {{ news.first_name }} {{ news.last_name }} | {{ news.created_time | date: 'medium' }}
     </p>
-    <img *ngIf="news.imageBase64"
-      [src]="'data:image/jpeg;base64,' + news.imageBase64" alt="News image" />
+    <img *ngIf="news.imageBase64" [src]="'data:image/jpeg;base64,' + news.imageBase64" alt="News image" />
     <div>
-      <i class="fi fi-rr-social-network" style="color: #05450f;"> {{news.likes}}</i> &nbsp;&nbsp;
-      <i class="fi fi-rr-hand" style="color: #05450f;">{{news.unlikes}}</i> &nbsp;&nbsp;
+      <i (click)="like(news)" class="fi fi-rr-social-network" style="color: #05450f;"> {{news.likes}}</i> &nbsp;&nbsp;
+      <i (click)="unlike(news)" class="fi fi-rr-hand" style="color: #05450f;">{{news.unlikes}}</i> &nbsp;&nbsp;
       <i class="fi fi-rr-comment-alt" style="color: #05450f;">{{ news.comments.length || 0 }}</i>&nbsp;&nbsp;&nbsp;&nbsp;
-      <i class="fi fi-rr-bookmark" style="color: #05450f;"></i>
+      <i (click)="save(news)" class="fi fi-rr-bookmark" style="color: #05450f;"></i>
     </div>
   </div>
 </div>

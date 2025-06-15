@@ -1,0 +1,28 @@
+<div class="newpost-container">
+  <h2> <i class="fi fi-rr-photo-video"></i> &nbsp;Create New Post</h2>
+
+  <form #postForm="ngForm">
+    <label class="heading" for="title"><b>Title</b></label>
+    <input type="text" id="title" [(ngModel)]="title" name="title" required />
+    <br><br>
+
+    <label for="pref"><b>Category</b></label> &nbsp; &nbsp; &nbsp; &nbsp; 
+    <select id="prefr" [(ngModel)]="pref_name" name="pref_name" required>
+      <option value="" disabled selected>Select Preference</option>
+      <option *ngFor="let pref of prefOptions" [value]="pref">{{ pref }}</option>
+    </select>
+    <br><br>
+
+    <label for="img"><b>Image</b></label>
+    <input type="file" id="img" (change)="onFileSelected($event)" accept="image/*" />
+    <br><br>
+
+    <label for="content"><b>Content</b></label>
+    <textarea id="content" [(ngModel)]="contents" name="contents" rows="6" required></textarea>
+
+    <button class="sub" type="button" (click)="createPost()">Post</button>
+  </form>
+
+  <br><br>
+  <div *ngIf="message">{{ message }}</div>
+</div>

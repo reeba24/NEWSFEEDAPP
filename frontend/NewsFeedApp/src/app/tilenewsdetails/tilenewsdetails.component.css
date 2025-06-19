@@ -17,6 +17,18 @@
 
   box-sizing: border-box;
 }
+.foll{
+  background-color: white;
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+.foll:hover{
+  background-color: #05450f;
+}
 
 .news-wrapper h2,
 .news-wrapper p {

@@ -1,1 +1,39 @@
-<p>following works!</p>
+<div class="news-tile-container">
+  <div *ngIf="!loading && followedNewsList.length === 0" class="no-follow-message">
+    <p>You do not follow any news publishers. Please follow to get the latest updates.</p>
+  </div>
+
+  <div *ngFor="let news of followedNewsList" class="news-tile" (click)="selecttile(news)">
+    <h3>{{ news.news_title }}</h3>
+    <p class="author-info">
+      By {{ news.first_name }} {{ news.last_name }} | {{ news.created_time | date: 'medium' }}
+    </p>
+    <img *ngIf="news.imageBase64" [src]="'data:image/jpeg;base64,' + news.imageBase64" alt="News image" />
+
+    <div>
+      <i 
+        (click)="like(news)" 
+        [class]="'fi ' + (news.hasLiked ? 'fi-sr-thumbs-up' : 'fi-rr-social-network')"
+        style="color: #05450f;">
+        {{ news.likes }}
+      </i> &nbsp;&nbsp;
+
+      <i 
+        (click)="unlike(news)" 
+        [class]="'fi ' + (news.hasUnliked ? 'fi-sr-thumbs-down' : 'fi-rr-hand')"
+        style="color: #05450f;">
+        {{ news.unlikes }}
+      </i> &nbsp;&nbsp;
+
+      <i class="fi fi-rr-comment-alt" style="color: #05450f;">
+        {{ news.comments.length || 0 }}
+      </i> &nbsp;&nbsp;&nbsp;&nbsp;
+
+      <i 
+        (click)="save(news)" 
+        [class]="'fi ' + (news.hasSaved ? 'fi-sr-bookmark' : 'fi-rr-bookmark')"
+        style="color: #05450f;">
+      </i>
+    </div>
+  </div>
+</div>

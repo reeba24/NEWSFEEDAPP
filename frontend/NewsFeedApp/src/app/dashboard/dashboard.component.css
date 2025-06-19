@@ -58,6 +58,10 @@
 .menu-list li {
   margin: 10px 0;
 }
+.menu-list li.active {
+  color: #1a964a;  
+  
+}
 
 .main-content {
   flex: 1;

@@ -15,5 +15,6 @@ namespace NewsApp.Repository.Models
         public int active { get; set; }
          public string pref_name { get; set; }
         public IFormFile image { get; set; }
+
     }
 }

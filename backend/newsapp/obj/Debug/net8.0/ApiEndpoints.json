@@ -16,6 +16,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "newsapp.Controllers.CommentsController",
+    "Method": "GetCommentsByNewsId",
+    "RelativePath": "api/Comments/news/{news_id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "news_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "newsapp.Controllers.EditProfileController",
     "Method": "GetProfile",
     "RelativePath": "api/EditProfile/GetProfile/{userId}",
@@ -48,6 +64,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "newsapp.Controllers.FeedController",
+    "Method": "GetFeedStatus",
+    "RelativePath": "api/Feed/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.FollowController",
+    "Method": "FollowUser",
+    "RelativePath": "api/Follow",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "follow",
+        "Type": "NewsApp.Repository.Models.Follow",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.FollowingController",
+    "Method": "GetFollowedNews",
+    "RelativePath": "api/Following/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "newsapp.Controllers.ImageUploadController",
     "Method": "UploadImages",
     "RelativePath": "api/ImageUpload/upload",
@@ -69,6 +133,27 @@
         "Name": "like",
         "Type": "NewsApp.Repository.Models.Like",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.LikeUnlikeController",
+    "Method": "GetStatus",
+    "RelativePath": "api/LikeUnlike/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "news_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "u_id",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -114,21 +199,36 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "post",
-        "Type": "NewsApp.Repository.Models.NewsPost",
-        "IsRequired": true
+        "Name": "news_title",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "contents",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "u_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "active",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pref_name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "image",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "newsapp.Controllers.NewPostController",
-    "Method": "GetAllNews",
-    "RelativePath": "api/NewPost",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -138,7 +238,13 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -238,6 +344,53 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "newsapp.Controllers.SavedController",
+    "Method": "GetSavedStatus",
+    "RelativePath": "api/Saved/status",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "news_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "u_id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SearchController",
+    "Method": "SearchNews",
+    "RelativePath": "api/Search/{keyword}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "keyword",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SignOutController",
+    "Method": "SignOut",
+    "RelativePath": "api/SignOut",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "newsapp.Controllers.SignUpController",
     "Method": "TestConnection",
     "RelativePath": "api/SignUp/api/test",
@@ -287,6 +440,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.TrendingNewsController",
+    "Method": "GetTrendingNews",
+    "RelativePath": "api/TrendingNews",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

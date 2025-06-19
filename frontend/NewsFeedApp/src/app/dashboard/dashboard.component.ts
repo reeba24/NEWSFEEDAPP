@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { EditprofileComponent } from '../editprofile/editprofile.component'; 
 import { ForyouComponent } from '../foryou/foryou.component';
@@ -34,7 +35,7 @@ import { NotificationsComponent } from '../notifications/notifications.component
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
+  feedStatus: 'ready' | 'noprefs' | 'nofollowed' | 'nonews' = 'ready';
   newsList: TileData[] = [];
   filteredNewsList: TileData[] = [];
   searchResults: TileData[] = [];
@@ -43,41 +44,57 @@ export class DashboardComponent implements OnInit {
   showDropdown = false;
   logoutConfirmationVisible = false;
   searchText: string = '';
-
   activeTab: 'forYou' | 'trending' | 'tilenewsdetails' | 'editprofile' | 'newpost' | 'following' | 'saved' = 'forYou';
-
-
   showNotifications: boolean = false;
+ 
+  userId: number = 0;
 
   constructor(
     private router: Router,
-    private newsService: NewsService
+    private newsService: NewsService,
+    private http: HttpClient 
   ) {}
 
   ngOnInit(): void {
     console.log('DashboardComponent initialized');
+    this.userId = parseInt(localStorage.getItem('userId') || '0');
 
-    this.newsService.getAllNews().subscribe({
-      next: (data) => {
-        this.newsList = [...data];
-        this.filteredNewsList = [...data];
-        console.log('News loaded:', this.newsList.length);
+    this.newsService.getFeedStatus(this.userId).subscribe({
+      next: (res: any) => {
+        this.feedStatus = res.status;
+        console.log('Feed Status:', this.feedStatus);
+
+        if (this.feedStatus === 'ready') {
+          this.newsService.getAllNews(this.userId).subscribe({
+            next: (data) => {
+              this.newsList = [...data];
+              this.filteredNewsList = [...data];
+              console.log('News loaded:', this.newsList.length);
+            },
+            error: (err) => console.error('Failed to load news', err)
+          });
+        }
       },
-      error: (err) => console.error('Failed to load news', err)
+      error: (err) => {
+        console.error('Feed status check failed', err);
+      }
     });
   }
 
   onSearch(): void {
-    const searchTerm = this.searchText.trim().toLowerCase();
-    if (searchTerm) {
-      this.searchResults = this.newsList.filter(news =>
-        news.news_title.toLowerCase().includes(searchTerm)
-      );
-      this.isSearching = true;
-    } else {
-      this.clearSearch(); 
-    }
+  const searchTerm = this.searchText.trim();
+  if (searchTerm) {
+    this.newsService.getSearchResults(searchTerm).subscribe({
+      next: data => {
+        this.searchResults = data;
+        this.isSearching = true;
+      },
+      error: err => console.error('Search failed:', err)
+    });
+  } else {
+    this.clearSearch();
   }
+}
 
   clearSearch(): void {
     this.searchText = '';
@@ -137,19 +154,24 @@ export class DashboardComponent implements OnInit {
     }, 150);
   }
 
-  logout(): void {
-    console.log('Logout clicked');
-    this.showDropdown = false;
-    this.logoutConfirmationVisible = true;
-  }
+  logout() {
+  
+  this.showDropdown = false;
+  this.logoutConfirmationVisible = true;
+  
+}
 
   confirmLogout(): void {
-    console.log('Logout confirmed');
+  this.http.post('https://localhost:7077/api/signout', {}).subscribe(() => {
+    localStorage.clear();
     this.logoutConfirmationVisible = false;
-    this.router.navigate(['/']);
-  }
+    this.router.navigate(['/signin']); 
+  });
+}
 
   cancelLogout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     console.log('Logout cancelled');
     this.logoutConfirmationVisible = false;
   }
@@ -172,11 +194,11 @@ export class DashboardComponent implements OnInit {
     this.isSearching = false;
   }
 
-  
   noticlick(): void {
     this.showNotifications = !this.showNotifications;
   }
+
   closeNotifications(): void {
-  this.showNotifications = false;
-}
+    this.showNotifications = false;
+  }
 }

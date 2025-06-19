@@ -1,177 +1,143 @@
-﻿namespace newsapp.Controllers;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using newsapp.Models;
 using NewsApp.Repository.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Threading.Tasks;
+using System;
 
-[Route("api/[controller]")]
-[ApiController]
-public class NewPostController : ControllerBase
+namespace newsapp.Controllers
 {
-    private readonly IConfiguration _configuration;
-
-    public NewPostController(IConfiguration configuration)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class NewPostController : ControllerBase
     {
-        _configuration = configuration;
-    }
+        private readonly IConfiguration _configuration;
 
-
-    [HttpPost]
-    public IActionResult CreatePost([FromBody] NewsPost post)
-    {
-        try
+        public NewPostController(IConfiguration configuration)
         {
-            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection")))
-            {
-                con.Open();
-
-
-                string getNewsIdQuery = "SELECT ISNULL(MAX(news_id), 0) + 1 FROM NEWS";
-                SqlCommand newsIdCmd = new SqlCommand(getNewsIdQuery, con);
-                int nextNewsId = (int)newsIdCmd.ExecuteScalar();
-
-                string getMediaIdQuery = "SELECT ISNULL(MAX(media_id), 0) + 1 FROM MEDIA";
-                SqlCommand mediaIdCmd = new SqlCommand(getMediaIdQuery, con);
-                int nextMediaId = (int)mediaIdCmd.ExecuteScalar();
-
-                string getPrefIdQuery = @"
-                    SELECT pref_id FROM PREFERENCES 
-                    WHERE LTRIM(RTRIM(LOWER(pref_name))) = LTRIM(RTRIM(LOWER(@prefName)))";
-
-                SqlCommand prefCmd = new SqlCommand(getPrefIdQuery, con);
-                prefCmd.Parameters.AddWithValue("@prefName", post.pref_name?.Trim() ?? "");
-                object prefIdObj = prefCmd.ExecuteScalar();
-
-                if (prefIdObj == null)
-                    return BadRequest(new { message = "Invalid preference/category name." });
-
-                int prefId = (int)prefIdObj;
-
-
-                string insertNewsQuery = @"
-                    INSERT INTO NEWS (news_id, media_id, pref_id, news_title, contents, u_id, active, created_time)
-                    VALUES (@newsId, @mediaId, @prefId, @title, @content, @uid, @active, @createdTime)";
-
-                SqlCommand newsCmd = new SqlCommand(insertNewsQuery, con);
-                newsCmd.Parameters.AddWithValue("@newsId", nextNewsId);
-                newsCmd.Parameters.AddWithValue("@mediaId", nextMediaId);
-                newsCmd.Parameters.AddWithValue("@prefId", prefId);
-                newsCmd.Parameters.AddWithValue("@title", post.news_title);
-                newsCmd.Parameters.AddWithValue("@content", post.contents);
-                newsCmd.Parameters.AddWithValue("@uid", post.u_id);
-                newsCmd.Parameters.AddWithValue("@active", post.active);
-                newsCmd.Parameters.AddWithValue("@createdTime", DateTime.Now);
-                newsCmd.ExecuteNonQuery();
-
-
-                string insertMediaQuery = @"
-                    INSERT INTO MEDIA (media_id, news_id, image)
-                    VALUES (@mediaId, @newsId, NULL)";
-
-                SqlCommand mediaCmd = new SqlCommand(insertMediaQuery, con);
-                mediaCmd.Parameters.AddWithValue("@mediaId", nextMediaId);
-                mediaCmd.Parameters.AddWithValue("@newsId", nextNewsId);
-                mediaCmd.ExecuteNonQuery();
-
-                return Ok(new { message = "Post created successfully" });
-            }
+            _configuration = configuration;
         }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { message = "Error: " + ex.Message });
-        }
-    }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAllNews()
-    {
-        try
+        [HttpPost]
+        public async Task<IActionResult> CreatePost([FromForm] NewsPost post)
         {
-            using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection")))
+            try
             {
-                await con.OpenAsync();
-
-                string query = @"
-                SELECT N.news_id, N.news_title, N.contents, N.created_time, 
-                       P.pref_name, M.image,
-                       U.first_name, U.last_name,
-                       ISNULL(L.likes, 0) AS likes, ISNULL(L.unlikes, 0) AS unlikes
-                FROM NEWS N
-                INNER JOIN PREFERENCES P ON N.pref_id = P.pref_id
-                LEFT JOIN MEDIA M ON N.news_id = M.news_id
-                INNER JOIN USERS U ON N.u_id = U.u_id
-                LEFT JOIN (
-                    SELECT news_id, 
-                           SUM(CASE WHEN like_status = 1 THEN 1 ELSE 0 END) AS likes,
-                           SUM(CASE WHEN like_status = 0 THEN 1 ELSE 0 END) AS unlikes
-                    FROM LIKEUNLIKE
-                    GROUP BY news_id
-                ) L ON N.news_id = L.news_id
-                WHERE N.active = 1
-                ORDER BY N.created_time DESC";
-
-                SqlCommand cmd = new SqlCommand(query, con);
-                SqlDataReader reader = await cmd.ExecuteReaderAsync();
-
-                var newsList = new List<object>();
-
-                while (await reader.ReadAsync())
+                using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection")))
                 {
-                    byte[] imageBytes = reader["image"] != DBNull.Value ? (byte[])reader["image"] : null;
-                    string base64Image = imageBytes != null ? Convert.ToBase64String(imageBytes) : null;
+                    await con.OpenAsync();
 
-                    int newsId = (int)reader["news_id"];
+                    string getNewsIdQuery = "SELECT ISNULL(MAX(news_id), 0) + 1 FROM NEWS";
+                    SqlCommand newsIdCmd = new SqlCommand(getNewsIdQuery, con);
+                    int nextNewsId = (int)await newsIdCmd.ExecuteScalarAsync();
 
-                    // Fetch comments for each news_id
-                    List<object> comments = await GetComments(con, newsId);
+                    string getMediaIdQuery = "SELECT ISNULL(MAX(media_id), 0) + 1 FROM MEDIA";
+                    SqlCommand mediaIdCmd = new SqlCommand(getMediaIdQuery, con);
+                    int nextMediaId = (int)await mediaIdCmd.ExecuteScalarAsync();
 
-                    newsList.Add(new
+                    string getPrefIdQuery = @"
+                        SELECT pref_id FROM PREFERENCES 
+                        WHERE LTRIM(RTRIM(LOWER(pref_name))) = LTRIM(RTRIM(LOWER(@prefName)))";
+
+                    SqlCommand prefCmd = new SqlCommand(getPrefIdQuery, con);
+                    prefCmd.Parameters.AddWithValue("@prefName", post.pref_name?.Trim() ?? "");
+                    object prefIdObj = await prefCmd.ExecuteScalarAsync();
+
+                    if (prefIdObj == null)
+                        return BadRequest(new { message = "Invalid preference/category name." });
+
+                    int prefId = (int)prefIdObj;
+
+                    string insertNewsQuery = @"
+                        INSERT INTO NEWS (news_id, media_id, pref_id, news_title, contents, u_id, active, created_time)
+                        VALUES (@newsId, @mediaId, @prefId, @title, @content, @uid, @active, @createdTime)";
+
+                    SqlCommand newsCmd = new SqlCommand(insertNewsQuery, con);
+                    newsCmd.Parameters.AddWithValue("@newsId", nextNewsId);
+                    newsCmd.Parameters.AddWithValue("@mediaId", nextMediaId);
+                    newsCmd.Parameters.AddWithValue("@prefId", prefId);
+                    newsCmd.Parameters.AddWithValue("@title", post.news_title);
+                    newsCmd.Parameters.AddWithValue("@content", post.contents);
+                    newsCmd.Parameters.AddWithValue("@uid", post.u_id);
+                    newsCmd.Parameters.AddWithValue("@active", post.active);
+                    newsCmd.Parameters.AddWithValue("@createdTime", DateTime.Now);
+                    await newsCmd.ExecuteNonQueryAsync();
+
+                    byte[] imageBytes = null;
+                    if (post.image != null && post.image.Length > 0)
                     {
-                        news_id = newsId,
-                        news_title = (string)reader["news_title"],
-                        contents = (string)reader["contents"],
-                        created_time = (DateTime)reader["created_time"],
-                        pref_name = (string)reader["pref_name"],
-                        imageBase64 = base64Image,
-                        first_name = (string)reader["first_name"],
-                        last_name = (string)reader["last_name"],
-                        likes = (int)reader["likes"],
-                        unlikes = (int)reader["unlikes"],
-                        comments = comments
-                    });
+                        using (var ms = new MemoryStream())
+                        {
+                            await post.image.CopyToAsync(ms);
+                            imageBytes = ms.ToArray();
+                        }
+                    }
+
+                    await new SqlCommand("SET IDENTITY_INSERT MEDIA ON", con).ExecuteNonQueryAsync();
+
+                    string insertMediaQuery = @"
+                        INSERT INTO MEDIA (media_id, news_id, image)
+                        VALUES (@mediaId, @newsId, @image)";
+
+                    SqlCommand mediaCmd = new SqlCommand(insertMediaQuery, con);
+                    mediaCmd.Parameters.AddWithValue("@mediaId", nextMediaId);
+                    mediaCmd.Parameters.AddWithValue("@newsId", nextNewsId);
+                    mediaCmd.Parameters.AddWithValue("@image", (object?)imageBytes ?? DBNull.Value);
+                    await mediaCmd.ExecuteNonQueryAsync();
+
+                    await new SqlCommand("SET IDENTITY_INSERT MEDIA OFF", con).ExecuteNonQueryAsync();
+
+                    string getAuthorNameQuery = "SELECT first_name, last_name FROM USERS WHERE u_id = @uid";
+                    SqlCommand nameCmd = new SqlCommand(getAuthorNameQuery, con);
+                    nameCmd.Parameters.AddWithValue("@uid", post.u_id);
+                    string fullName = "";
+
+                    using (SqlDataReader reader = await nameCmd.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            fullName = reader["first_name"] + " " + reader["last_name"];
+                        }
+                    }
+
+                    string followersQuery = "SELECT followed_by_uid FROM FOLLOWED WHERE followed_uid = @author";
+                    SqlCommand followersCmd = new SqlCommand(followersQuery, con);
+                    followersCmd.Parameters.AddWithValue("@author", post.u_id);
+
+                    var followerIds = new List<int>();
+                    using (SqlDataReader followerReader = await followersCmd.ExecuteReaderAsync())
+                    {
+                        while (await followerReader.ReadAsync())
+                        {
+                            followerIds.Add(Convert.ToInt32(followerReader["followed_by_uid"]));
+                        }
+                    }
+
+                    if (followerIds.Count > 0)
+                    {
+                        string insertNotifQuery = @"
+                            INSERT INTO NOTIFICATION (u_id, notificationtype_id, created_time, notification_text, active)
+                            VALUES (@uid, @typeId, GETDATE(), @text, 1)";
+
+                        foreach (int fid in followerIds)
+                        {
+                            SqlCommand notifCmd = new SqlCommand(insertNotifQuery, con);
+                            notifCmd.Parameters.AddWithValue("@uid", fid);
+                            notifCmd.Parameters.AddWithValue("@typeId", 2); 
+                            notifCmd.Parameters.AddWithValue("@text", $"{fullName} created a new post: {post.news_title}");
+                            await notifCmd.ExecuteNonQueryAsync();
+                        }
+                    }
+
+                    return Ok(new { message = "Post created successfully" });
                 }
-
-                return Ok(newsList);
             }
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { message = "Error: " + ex.Message });
-        }
-    }
-
-    private async Task<List<object>> GetComments(SqlConnection con, int newsId)
-    {
-        string commentQuery = @"SELECT comment_id, news_id, u_id, comments, created_time FROM COMMENT WHERE news_id = @newsId";
-        SqlCommand cmd = new SqlCommand(commentQuery, con);
-        cmd.Parameters.AddWithValue("@newsId", newsId);
-
-        var commentList = new List<object>();
-        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
-        {
-            while (await reader.ReadAsync())
+            catch (Exception ex)
             {
-                commentList.Add(new
-                {
-                    comment_id = (int)reader["comment_id"],
-                    news_id = (int)reader["news_id"],
-                    u_id = (int)reader["u_id"],
-                    comments = (string)reader["comments"],
-                    created_time = (DateTime)reader["created_time"]
-                });
+                return StatusCode(500, new { message = "Error: " + ex.Message });
             }
         }
-        return commentList;
     }
 }

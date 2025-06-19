@@ -33,7 +33,8 @@ const appRoutes = [
    {path: 'search', component: SearchComponent},
    {path: 'following', component:FollowingComponent},
    {path: 'saved', component:SavedComponent},
-   {path: 'notifications', component:NotificationsComponent}
+   {path: 'notifications', component:NotificationsComponent},
+   { path: '**', redirectTo: '' }
 
 ];
 

@@ -16,12 +16,27 @@ export class ForyouComponent implements OnInit {
   @Input() newsItem: TileData | null = null;
   @Output() tileClicked = new EventEmitter<TileData>();
 
-  constructor(private likeService: LikeService, private savedService: SavedService) { }
-
   u_id: number = parseInt(localStorage.getItem('userId') || '0');
 
+  constructor(private likeService: LikeService, private savedService: SavedService) {}
+
   ngOnInit(): void {
-    console.log('ForyouComponent received newsList:', this.newsList);
+    this.newsList.forEach(news => {
+      this.likeService.getStatus(news.news_id, this.u_id).subscribe({
+        next: (res: any) => {
+          news.hasLiked = res.hasLiked;
+          news.hasUnliked = res.hasUnliked;
+        },
+        error: err => console.error('Like status fetch failed', err)
+      });
+
+      this.savedService.getStatus(news.news_id, this.u_id).subscribe({
+        next: (res: any) => {
+          news.hasSaved = res.hasSaved;
+        },
+        error: err => console.error('Save status fetch failed', err)
+      });
+    });
   }
 
   selecttile(news: TileData): void {
@@ -29,9 +44,13 @@ export class ForyouComponent implements OnInit {
   }
 
   like(news: TileData): void {
+    if (news.hasLiked) return;
+
     this.likeService.like(news.news_id, this.u_id).subscribe({
       next: () => {
-        news.likes += 1;  
+        news.likes += 1;
+        news.hasLiked = true;
+        news.hasUnliked = false;
       },
       error: err => console.error(err)
     });
@@ -41,17 +60,23 @@ export class ForyouComponent implements OnInit {
     this.likeService.unlike(news.news_id, this.u_id).subscribe({
       next: () => {
         news.unlikes += 1;
-        if (news.likes > 0) {
-          news.likes -= 1;
+        if (news.hasLiked) {
+          news.likes = Math.max(news.likes - 1, 0);
         }
+        news.hasLiked = false;
+        news.hasUnliked = true;
       },
       error: err => console.error(err)
     });
   }
 
   save(news: TileData): void {
+    if (news.hasSaved) return;
+
     this.savedService.save(news.news_id, this.u_id).subscribe({
-      next: () => alert('Saved!'),
+      next: () => {
+        news.hasSaved = true;
+      },
       error: err => console.error(err)
     });
   }

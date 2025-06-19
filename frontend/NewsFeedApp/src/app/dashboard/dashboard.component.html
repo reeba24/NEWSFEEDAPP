@@ -2,18 +2,18 @@
   <div class="sidebar">
     <h3><img class="logo" src="assets/tech2.png" alt="logo"> News in the Block</h3>
     <button class="new-post" (click)="opennewpost()">+ New Post</button>
-    
-    <ul class="menu-list">
-      <li (click)="homeclick()">
-        <i class="fi fi-rr-house-chimney" style="color: rgb(9, 78, 35)"></i> &nbsp;Home
-      </li>
-      <li (click)="followingclick()">
-        <i class="fi fi-rr-following" style="color: rgb(9, 78, 35)"></i> &nbsp;Following
-      </li>
-      <li (click)="savedclick()">
-        <i class="fi fi-rr-bookmark" style="color: rgb(9, 78, 35)"></i> &nbsp;Saved
-      </li>
-    </ul>
+
+<ul class="menu-list">
+  <li [class.active]="activeTab === 'forYou'" (click)="homeclick()">
+    <i class="fi fi-rr-house-chimney"></i> &nbsp;Home
+  </li>
+  <li [class.active]="activeTab === 'following'" (click)="followingclick()">
+    <i class="fi fi-rr-following"></i> &nbsp;Following
+  </li>
+  <li [class.active]="activeTab === 'saved'" (click)="savedclick()">
+    <i class="fi fi-rr-bookmark"></i> &nbsp;Saved
+  </li>
+</ul>
   </div>
 
   <div class="main-content">
@@ -32,7 +32,6 @@
           (click)="toggleDropdown()" 
           (blur)="closeDropdown()" 
           tabindex="0">
-        
           <i class="fi fi-rr-user" style="height: 40px; width: 30px; color: rgb(9, 78, 35);"></i> 
           <div class="dropdown" *ngIf="showDropdown">
             <a [class.active]="activeTab === 'editprofile'" (click)="openeditprofile()">Edit Profile</a>
@@ -41,30 +40,53 @@
         </span>
       </div>
     </div>
+
     <app-search
       *ngIf="isSearching"
       [newsList]="searchResults"
       (tileClicked)="opentiledata($event)">
     </app-search>
 
-    <div class="tabs" *ngIf="!isSearching && activeTab !== 'tilenewsdetails' && activeTab !== 'editprofile' && activeTab !== 'newpost' && activeTab !== 'following' && activeTab !== 'saved' ">
+    <div class="tabs" *ngIf="!isSearching && activeTab !== 'tilenewsdetails' && activeTab !== 'editprofile' && activeTab !== 'newpost' && activeTab !== 'following' && activeTab !== 'saved'">
       <button class="tab" [class.active]="activeTab === 'forYou'" (click)="openforyou()">For You</button>
       <button class="tab" [class.active]="activeTab === 'trending'" (click)="opentrending()">Trending</button>
     </div>
 
+    <!-- FEED MESSAGES -->
+    <div class="feed-message" *ngIf="!isSearching && activeTab === 'forYou' && feedStatus !== 'ready'">
+      <div *ngIf="feedStatus === 'noprefs'">
+        <p>You haven't selected any preferences yet.</p>
+        <button class="add-btn" (click)="openeditprofile()">Add Preferences</button>
+      </div>
+
+      <div *ngIf="feedStatus === 'nofollowed'">
+        <p>You aren't following anyone yet.</p>
+        <button class="add-btn" (click)="followingclick()">Find People</button>
+      </div>
+
+      <div *ngIf="feedStatus === 'nonews'">
+        <p>No posts available from followed users yet.</p>
+      </div>
+    </div>
+
     <div class="post-grid" *ngIf="!isSearching && activeTab !== 'tilenewsdetails'">
-      <app-foryou *ngIf="activeTab === 'forYou'" [newsList]="newsList" (tileClicked)="opentiledata($event)"></app-foryou>
-      <app-trending *ngIf="activeTab === 'trending'"></app-trending>
-      <app-following *ngIf="activeTab === 'following'"></app-following>
-      
+      <app-foryou
+    *ngIf="activeTab === 'forYou' && feedStatus === 'ready'"
+    [newsList]="newsList"
+    (tileClicked)="opentiledata($event)">
+  </app-foryou>
+
+  <app-trending *ngIf="activeTab === 'trending'" (tileClicked)="opentiledata($event)"></app-trending>
     </div>
 
     <app-tilenewsdetails 
-      *ngIf="activeTab === 'tilenewsdetails' &&  selectedNewsItem"
+      *ngIf="activeTab === 'tilenewsdetails' && selectedNewsItem"
       [newsItem]="selectedNewsItem"
       (backClicked)="openforyou()">
     </app-tilenewsdetails>
+
     <app-saved *ngIf="activeTab === 'saved'" (tileClicked)="opentiledata($event)"></app-saved>
+    <app-following *ngIf="activeTab === 'following'" (tileClicked)="opentiledata($event)"></app-following>
 
     <app-editprofile
       *ngIf="activeTab === 'editprofile'"
@@ -75,6 +97,7 @@
       *ngIf="activeTab === 'newpost'">
     </app-newpost>
   </div>
+
   <app-notifications *ngIf="showNotifications" (close)="closeNotifications()"></app-notifications>
 </div>
 

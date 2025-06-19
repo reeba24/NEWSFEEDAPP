@@ -19,6 +19,7 @@ export class EditprofileComponent implements OnInit {
   lastName = '';
   about = '';
   userId: number = 0;
+  successmsg='';
 
   prefOptions: string[] = [
     'Technology','Artificial Intelligence','Virtual Reality','Data Science','Programming',
@@ -87,11 +88,11 @@ export class EditprofileComponent implements OnInit {
 
     this.http.post('https://localhost:7077/api/EditProfile/Update', payload).subscribe({
       next: () => {
-        alert('Profile updated successfully!');
+        this.successmsg="Profile Updated Successfully";
       },
       error: (err) => {
         console.error(err);
-        alert('Error updating profile');
+        this.successmsg="Error";
       }
     });
   }

@@ -36,6 +36,29 @@
         }
       }
     },
+    "/api/Comments/news/{news_id}": {
+      "get": {
+        "tags": [
+          "Comments"
+        ],
+        "parameters": [
+          {
+            "name": "news_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/EditProfile/GetProfile/{userId}": {
       "get": {
         "tags": [
@@ -83,6 +106,82 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Feed/status": {
+      "get": {
+        "tags": [
+          "Feed"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Follow": {
+      "post": {
+        "tags": [
+          "Follow"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Follow"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Follow"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Follow"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Following/{userId}": {
+      "get": {
+        "tags": [
+          "Following"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -164,6 +263,36 @@
         }
       }
     },
+    "/api/LikeUnlike/status": {
+      "get": {
+        "tags": [
+          "LikeUnlike"
+        ],
+        "parameters": [
+          {
+            "name": "news_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "u_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Login/signin": {
       "post": {
         "tags": [
@@ -202,33 +331,56 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/NewsPost"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewsPost"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewsPost"
+                "type": "object",
+                "properties": {
+                  "news_title": {
+                    "type": "string"
+                  },
+                  "contents": {
+                    "type": "string"
+                  },
+                  "u_id": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "active": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "pref_name": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "news_title": {
+                  "style": "form"
+                },
+                "contents": {
+                  "style": "form"
+                },
+                "u_id": {
+                  "style": "form"
+                },
+                "active": {
+                  "style": "form"
+                },
+                "pref_name": {
+                  "style": "form"
+                },
+                "image": {
+                  "style": "form"
+                }
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "NewPost"
-        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -240,6 +392,16 @@
       "get": {
         "tags": [
           "News"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -379,6 +541,36 @@
         }
       }
     },
+    "/api/Saved/status": {
+      "get": {
+        "tags": [
+          "Saved"
+        ],
+        "parameters": [
+          {
+            "name": "news_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "u_id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Saved/getsavednews/{u_id}": {
       "get": {
         "tags": [
@@ -394,6 +586,40 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Search/{keyword}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/SignOut": {
+      "post": {
+        "tags": [
+          "SignOut"
         ],
         "responses": {
           "200": {
@@ -492,6 +718,18 @@
           }
         }
       }
+    },
+    "/api/TrendingNews": {
+      "get": {
+        "tags": [
+          "TrendingNews"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -526,6 +764,20 @@
         },
         "additionalProperties": false
       },
+      "Follow": {
+        "type": "object",
+        "properties": {
+          "followedUid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "followedByUid": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "Like": {
         "type": "object",
         "properties": {
@@ -553,37 +805,6 @@
           },
           "comments": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "NewsPost": {
-        "type": "object",
-        "properties": {
-          "news_title": {
-            "type": "string",
-            "nullable": true
-          },
-          "contents": {
-            "type": "string",
-            "nullable": true
-          },
-          "u_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "active": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "pref_name": {
-            "type": "string",
-            "nullable": true
-          },
-          "image": {
-            "type": "string",
-            "format": "binary",
             "nullable": true
           }
         },

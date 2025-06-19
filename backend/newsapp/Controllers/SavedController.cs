@@ -15,7 +15,6 @@ namespace newsapp.Controllers
             _configuration = configuration;
         }
 
-        
         [HttpPost("save")]
         public IActionResult SaveNews([FromBody] Saved saved)
         {
@@ -66,6 +65,32 @@ namespace newsapp.Controllers
             }
         }
 
+        [HttpGet("status")]
+        public IActionResult GetSavedStatus([FromQuery] int news_id, [FromQuery] int u_id)
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection")))
+                {
+                    conn.Open();
+
+                    string query = "SELECT active FROM SAVED WHERE news_id = @news_id AND u_id = @u_id AND active = 1";
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@news_id", news_id);
+                    cmd.Parameters.AddWithValue("@u_id", u_id);
+
+                    var result = cmd.ExecuteScalar();
+                    bool hasSaved = result != null;
+
+                    return Ok(new { hasSaved });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("getsavednews/{u_id}")]
         public IActionResult GetSavedNews(int u_id)
         {
@@ -75,7 +100,19 @@ namespace newsapp.Controllers
                 {
                     conn.Open();
 
-                    // 1st Query - get saved news with likes/unlikes/images
+                    HashSet<int> followedAuthorIds = new HashSet<int>();
+                    using (SqlCommand followCmd = new SqlCommand("SELECT followed_uid FROM FOLLOWED WHERE followed_by_uid = @u_id", conn))
+                    {
+                        followCmd.Parameters.AddWithValue("@u_id", u_id);
+                        using (SqlDataReader followReader = followCmd.ExecuteReader())
+                        {
+                            while (followReader.Read())
+                            {
+                                followedAuthorIds.Add((int)followReader["followed_uid"]);
+                            }
+                        }
+                    }
+
                     string sql = @"
                         SELECT 
                             n.news_id, 
@@ -84,6 +121,7 @@ namespace newsapp.Controllers
                             m.image,
                             u.first_name, 
                             u.last_name,
+                            u.u_id,
                             ISNULL(SUM(CAST(lu.likes AS INT)), 0) AS likes,
                             ISNULL(SUM(CAST(lu.unlikes AS INT)), 0) AS unlikes,
                             n.created_time
@@ -100,6 +138,7 @@ namespace newsapp.Controllers
                             m.image,
                             u.first_name, 
                             u.last_name,
+                            u.u_id,
                             n.created_time";
 
                     SqlCommand cmd = new SqlCommand(sql, conn);
@@ -110,10 +149,11 @@ namespace newsapp.Controllers
 
                     while (reader.Read())
                     {
+                        int authorId = (int)reader["u_id"];
                         var imageBytes = reader["image"] as byte[];
                         string imageBase64 = imageBytes != null ? Convert.ToBase64String(imageBytes) : null;
 
-                        var tile = new TileData
+                        savedNewsList.Add(new TileData
                         {
                             news_id = (int)reader["news_id"],
                             news_title = reader["news_title"].ToString(),
@@ -122,20 +162,19 @@ namespace newsapp.Controllers
                             imageBase64 = imageBase64,
                             first_name = reader["first_name"].ToString(),
                             last_name = reader["last_name"].ToString(),
+                            u_id = authorId,
                             likes = (int)reader["likes"],
                             unlikes = (int)reader["unlikes"],
                             created_time = (DateTime)reader["created_time"],
+                            isFollowed = followedAuthorIds.Contains(authorId),
                             comments = new List<CommentModel>()
-                        };
-
-                        savedNewsList.Add(tile);
+                        });
                     }
                     reader.Close();
 
                     if (savedNewsList.Count == 0)
-                        return Ok(savedNewsList); 
+                        return Ok(savedNewsList);
 
-                   
                     string commentSql = $@"
                         SELECT comment_id, news_id, u_id, comments, created_time 
                         FROM COMMENT 
@@ -145,7 +184,7 @@ namespace newsapp.Controllers
                     SqlCommand commentCmd = new SqlCommand(commentSql, conn);
                     SqlDataReader commentReader = commentCmd.ExecuteReader();
 
-                    var commentLookup = new Dictionary<int, List<CommentModel>>();
+                    Dictionary<int, List<CommentModel>> commentLookup = new();
 
                     while (commentReader.Read())
                     {

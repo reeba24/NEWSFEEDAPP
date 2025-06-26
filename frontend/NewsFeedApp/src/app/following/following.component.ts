@@ -28,6 +28,7 @@ export class FollowingComponent implements OnInit {
     hasLiked?: boolean;
     hasUnliked?: boolean;
     hasSaved?: boolean;
+    isFollowed?: boolean;
   })[] = [];
 
   loading: boolean = true;
@@ -60,19 +61,13 @@ export class FollowingComponent implements OnInit {
         }));
 
         this.followedNewsList.forEach(news => {
-          this.likeService.getStatus(news.news_id, this.u_id).subscribe({
-            next: (status: { hasLiked: boolean; hasUnliked: boolean }) => {
-              news.hasLiked = status.hasLiked;
-              news.hasUnliked = status.hasUnliked;
+          this.likeService.getFullStatus(news.news_id, this.u_id).subscribe({
+            next: (res) => {
+              news.hasLiked = res.hasLiked;
+              news.hasUnliked = res.hasUnliked;
+              news.hasSaved = res.hasSaved;
             },
-            error: err => console.error('Error getting like status:', err)
-          });
-
-          this.savedService.getStatus(news.news_id, this.u_id).subscribe({
-            next: (status: { hasSaved: boolean }) => {
-              news.hasSaved = status.hasSaved;
-            },
-            error: err => console.error('Error getting saved status:', err)
+            error: err => console.error('Error getting status:', err)
           });
         });
 
@@ -99,9 +94,10 @@ export class FollowingComponent implements OnInit {
     };
 
     this.commentService.addComment(commentPayload).subscribe({
-      next: () => {
+      next: (res: any) => {
         news.successMessage = 'Comment added successfully';
         news.newComment = '';
+        news.comments = res.comments;
       },
       error: (err: any) => {
         console.error('Error adding comment:', err);
@@ -114,46 +110,61 @@ export class FollowingComponent implements OnInit {
   }
 
   like(news: TileData): void {
-    this.likeService.like(news.news_id, this.u_id).subscribe({
+    if (news.hasLiked) return;
+
+    this.likeService.performAction(news.news_id, this.u_id, 'like').subscribe({
       next: () => {
         news.likes += 1;
+        if (news.hasUnliked) news.unlikes = Math.max(news.unlikes - 1, 0);
         news.hasLiked = true;
         news.hasUnliked = false;
-        if (news.unlikes > 0) news.unlikes -= 1;
       },
-      error: err => console.error(err)
+      error: err => console.error('Like failed:', err)
     });
   }
 
   unlike(news: TileData): void {
-    this.likeService.unlike(news.news_id, this.u_id).subscribe({
+    if (news.hasUnliked) return;
+
+    this.likeService.performAction(news.news_id, this.u_id, 'unlike').subscribe({
       next: () => {
         news.unlikes += 1;
-        news.hasUnliked = true;
+        if (news.hasLiked) news.likes = Math.max(news.likes - 1, 0);
         news.hasLiked = false;
-        if (news.likes > 0) news.likes -= 1;
+        news.hasUnliked = true;
       },
-      error: err => console.error(err)
+      error: err => console.error('Unlike failed:', err)
     });
   }
 
   save(news: TileData): void {
+    if (news.hasSaved) return;
+
     this.savedService.save(news.news_id, this.u_id).subscribe({
       next: () => {
         news.hasSaved = true;
       },
-      error: err => console.error(err)
+      error: err => console.error('Save failed:', err)
+    });
+  }
+    unsave(news: TileData): void {
+    if (!news.hasSaved) return;
+
+    this.savedService.unsave(news.news_id, this.u_id).subscribe({
+      next: () => {
+        news.hasSaved = false;
+      },
+      error: err => console.error('Unsave failed:', err)
     });
   }
 
   toggleFollow(news: TileData): void {
-    if (!news.isFollowed) {
-      this.followService.followUser(news.u_id, this.u_id).subscribe({
-        next: () => {
-          news.isFollowed = true;
-        },
-        error: err => console.error('Failed to follow:', err)
-      });
-    }
+    this.followService.followUser(news.u_id, this.u_id).subscribe({
+      next: (res: any) => {
+        news.isFollowed = !news.isFollowed;
+        console.log(res.message);
+      },
+      error: err => console.error('Follow/unfollow failed:', err)
+    });
   }
 }

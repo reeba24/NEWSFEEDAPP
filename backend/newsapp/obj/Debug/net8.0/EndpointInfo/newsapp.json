@@ -201,7 +201,7 @@
         }
       }
     },
-    "/api/LikeUnlike/like": {
+    "/api/LikeUnlike/action": {
       "post": {
         "tags": [
           "LikeUnlike"
@@ -232,38 +232,7 @@
         }
       }
     },
-    "/api/LikeUnlike/unlike": {
-      "post": {
-        "tags": [
-          "LikeUnlike"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Like"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/LikeUnlike/status": {
+    "/api/LikeUnlike/fullstatus": {
       "get": {
         "tags": [
           "LikeUnlike"
@@ -541,29 +510,30 @@
         }
       }
     },
-    "/api/Saved/status": {
-      "get": {
+    "/api/Saved/unsave": {
+      "post": {
         "tags": [
           "Saved"
         ],
-        "parameters": [
-          {
-            "name": "news_id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "u_id",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Saved"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Saved"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Saved"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -621,6 +591,25 @@
         "tags": [
           "SignOut"
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Signout"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Signout"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Signout"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -628,7 +617,7 @@
         }
       }
     },
-    "/api/SignUp/api/test": {
+    "/api/SignUp/test": {
       "get": {
         "tags": [
           "SignUp"
@@ -788,6 +777,10 @@
           "news_id": {
             "type": "integer",
             "format": "int32"
+          },
+          "action": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -832,6 +825,16 @@
             "format": "int32"
           },
           "news_id": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Signout": {
+        "type": "object",
+        "properties": {
+          "u_id": {
             "type": "integer",
             "format": "int32"
           }

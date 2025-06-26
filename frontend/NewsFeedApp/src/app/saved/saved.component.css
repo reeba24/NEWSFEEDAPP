@@ -61,3 +61,25 @@
   font-size: 18px;
   color: #444;
 }
+
+.tile-body {
+  cursor: pointer;
+}
+
+.tile-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+  padding-top: 10px;
+  font-size: 1rem;
+  color: #05450f;
+}
+
+.tile-actions i {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tile-actions i:hover {
+  transform: scale(1.1);
+}

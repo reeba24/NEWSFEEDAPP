@@ -123,14 +123,14 @@
   },
   {
     "ContainingType": "newsapp.Controllers.LikeUnlikeController",
-    "Method": "Like",
-    "RelativePath": "api/LikeUnlike/like",
+    "Method": "PerformLikeAction",
+    "RelativePath": "api/LikeUnlike/action",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "like",
+        "Name": "model",
         "Type": "NewsApp.Repository.Models.Like",
         "IsRequired": true
       }
@@ -139,8 +139,8 @@
   },
   {
     "ContainingType": "newsapp.Controllers.LikeUnlikeController",
-    "Method": "GetStatus",
-    "RelativePath": "api/LikeUnlike/status",
+    "Method": "GetFullStatus",
+    "RelativePath": "api/LikeUnlike/fullstatus",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -154,22 +154,6 @@
         "Name": "u_id",
         "Type": "System.Int32",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "newsapp.Controllers.LikeUnlikeController",
-    "Method": "Unlike",
-    "RelativePath": "api/LikeUnlike/unlike",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "like",
-        "Type": "NewsApp.Repository.Models.Like",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -345,21 +329,16 @@
   },
   {
     "ContainingType": "newsapp.Controllers.SavedController",
-    "Method": "GetSavedStatus",
-    "RelativePath": "api/Saved/status",
-    "HttpMethod": "GET",
+    "Method": "UnsaveNews",
+    "RelativePath": "api/Saved/unsave",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "news_id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "u_id",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "saved",
+        "Type": "NewsApp.Repository.Models.Saved",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -387,17 +366,13 @@
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "newsapp.Controllers.SignUpController",
-    "Method": "TestConnection",
-    "RelativePath": "api/SignUp/api/test",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "NewsApp.Repository.Models.Signout",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -428,7 +403,7 @@
   },
   {
     "ContainingType": "newsapp.Controllers.SignUpController",
-    "Method": "signup",
+    "Method": "SignUp",
     "RelativePath": "api/SignUp/signup",
     "HttpMethod": "POST",
     "IsController": true,
@@ -440,6 +415,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "newsapp.Controllers.SignUpController",
+    "Method": "TestConnection",
+    "RelativePath": "api/SignUp/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

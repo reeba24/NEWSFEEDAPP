@@ -32,31 +32,25 @@ export class TilenewsdetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.newsItem) {
-      this.likeService.getStatus(this.newsItem.news_id, this.u_id).subscribe({
-        next: res => {
-          this.newsItem!.hasLiked = res.hasLiked;
-        },
-        error: err => console.error('Failed to get like status', err)
-      });
+    if (!this.newsItem) return;
 
-      this.savedService.getStatus(this.newsItem.news_id, this.u_id).subscribe({
-        next: res => {
-          this.newsItem!.hasSaved = res.hasSaved;
-        },
-        error: err => console.error('Failed to get save status', err)
-      });
+    this.likeService.getFullStatus(this.newsItem.news_id, this.u_id).subscribe({
+      next: res => {
+        this.newsItem!.hasLiked = res.hasLiked;
+        this.newsItem!.hasUnliked = res.hasUnliked;
+        this.newsItem!.hasSaved = res.hasSaved;
+      },
+      error: err => console.error('Failed to get full status', err)
+    });
 
-      // Fetch comments with names
-      this.commentService.getCommentsByNewsId(this.newsItem.news_id).subscribe({
-        next: (comments) => {
-          this.newsItem!.comments = comments;
-        },
-        error: (err) => {
-          console.error('Failed to load comments:', err);
-        }
-      });
-    }
+    this.commentService.getCommentsByNewsId(this.newsItem.news_id).subscribe({
+      next: (comments) => {
+        this.newsItem!.comments = comments;
+      },
+      error: (err) => {
+        console.error('Failed to load comments:', err);
+      }
+    });
   }
 
   goBack(): void {
@@ -106,7 +100,6 @@ export class TilenewsdetailsComponent implements OnInit {
         this.successMessage = 'Comment added successfully';
         this.newComment = '';
 
-        // Refresh comments after adding
         this.commentService.getCommentsByNewsId(this.newsItem!.news_id).subscribe({
           next: (comments) => {
             this.newsItem!.comments = comments;
@@ -123,36 +116,39 @@ export class TilenewsdetailsComponent implements OnInit {
   }
 
   like(): void {
-    if (!this.newsItem || this.newsItem.hasLiked) {
-      return;
-    }
+    if (!this.newsItem || this.newsItem.hasLiked) return;
 
-    this.likeService.like(this.newsItem.news_id, this.u_id).subscribe({
+    this.likeService.performAction(this.newsItem.news_id, this.u_id, 'like').subscribe({
       next: () => {
         this.newsItem!.likes += 1;
+        if (this.newsItem!.hasUnliked) {
+          this.newsItem!.unlikes = Math.max(this.newsItem!.unlikes - 1, 0);
+        }
         this.newsItem!.hasLiked = true;
+        this.newsItem!.hasUnliked = false;
       },
       error: (err: any) => console.error(err)
     });
   }
 
   unlike(): void {
-    if (!this.newsItem) return;
+    if (!this.newsItem || this.newsItem.hasUnliked) return;
 
-    this.likeService.unlike(this.newsItem.news_id, this.u_id).subscribe({
+    this.likeService.performAction(this.newsItem.news_id, this.u_id, 'unlike').subscribe({
       next: () => {
         this.newsItem!.unlikes += 1;
-        if (this.newsItem!.likes > 0 && this.newsItem!.hasLiked) {
-          this.newsItem!.likes -= 1;
+        if (this.newsItem!.hasLiked) {
+          this.newsItem!.likes = Math.max(this.newsItem!.likes - 1, 0);
         }
         this.newsItem!.hasLiked = false;
+        this.newsItem!.hasUnliked = true;
       },
       error: (err: any) => console.error(err)
     });
   }
 
   save(): void {
-    if (!this.newsItem) return;
+    if (!this.newsItem || this.newsItem.hasSaved) return;
 
     this.savedService.save(this.newsItem.news_id, this.u_id).subscribe({
       next: () => {
@@ -160,6 +156,18 @@ export class TilenewsdetailsComponent implements OnInit {
         alert('Saved!');
       },
       error: (err: any) => console.error(err)
+    });
+  }
+
+  unsave(): void {
+    if (!this.newsItem || !this.newsItem.hasSaved) return;
+
+    this.savedService.unsave(this.newsItem.news_id, this.u_id).subscribe({
+      next: () => {
+        this.newsItem!.hasSaved = false;
+        alert('Unsaved!');
+      },
+      error: (err: any) => console.error('Error unsaving:', err)
     });
   }
 }

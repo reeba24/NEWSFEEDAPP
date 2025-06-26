@@ -161,8 +161,9 @@ export class DashboardComponent implements OnInit {
   
 }
 
-  confirmLogout(): void {
-  this.http.post('https://localhost:7077/api/signout', {}).subscribe(() => {
+confirmLogout(): void {
+  const userId = parseInt(localStorage.getItem('userId') || '0');
+  this.http.post('https://localhost:7077/api/signout', { u_id: userId }).subscribe(() => {
     localStorage.clear();
     this.logoutConfirmationVisible = false;
     this.router.navigate(['/signin']); 

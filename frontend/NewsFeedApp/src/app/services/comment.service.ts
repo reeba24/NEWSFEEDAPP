@@ -11,7 +11,7 @@ export class CommentService {
   constructor(private http: HttpClient) {}
 
   addComment(commentData: any): Observable<any> {
-    return this.http.post(this.baseUrl, commentData);
+    return this.http.post<any>(this.baseUrl, commentData);
   }
 
   getCommentsByNewsId(newsId: number): Observable<any[]> {

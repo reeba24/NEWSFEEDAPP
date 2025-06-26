@@ -15,7 +15,7 @@ import { SavedService } from '../services/saved.service';
 })
 export class TrendingComponent implements OnInit {
   trendingNews: (TileData & { hasLiked?: boolean; hasUnliked?: boolean; hasSaved?: boolean })[] = [];
-  @Output() tileClicked = new EventEmitter<TileData>(); 
+  @Output() tileClicked = new EventEmitter<TileData>();
 
   u_id: number = parseInt(localStorage.getItem('userId') || '0');
 
@@ -36,19 +36,13 @@ export class TrendingComponent implements OnInit {
         }));
 
         this.trendingNews.forEach(news => {
-          this.likeService.getStatus(news.news_id, this.u_id).subscribe({
+          this.likeService.getFullStatus(news.news_id, this.u_id).subscribe({
             next: status => {
               news.hasLiked = status.hasLiked;
               news.hasUnliked = status.hasUnliked;
-            },
-            error: err => console.error('Like status error:', err)
-          });
-
-          this.savedService.getStatus(news.news_id, this.u_id).subscribe({
-            next: status => {
               news.hasSaved = status.hasSaved;
             },
-            error: err => console.error('Saved status error:', err)
+            error: err => console.error('Full status error:', err)
           });
         });
       },
@@ -62,34 +56,53 @@ export class TrendingComponent implements OnInit {
     this.tileClicked.emit(news);
   }
 
-  like(news: any): void {
-    this.likeService.like(news.news_id, this.u_id).subscribe({
+  like(news: TileData): void {
+    if (news.hasLiked) return;
+
+    this.likeService.performAction(news.news_id, this.u_id, 'like').subscribe({
       next: () => {
         news.likes += 1;
+        if (news.hasUnliked) news.unlikes = Math.max(news.unlikes - 1, 0);
         news.hasLiked = true;
         news.hasUnliked = false;
-        if (news.unlikes > 0) news.unlikes -= 1;
       },
       error: err => console.error(err)
     });
   }
 
-  unlike(news: any): void {
-    this.likeService.unlike(news.news_id, this.u_id).subscribe({
+  unlike(news: TileData): void {
+    if (news.hasUnliked) return;
+
+    this.likeService.performAction(news.news_id, this.u_id, 'unlike').subscribe({
       next: () => {
         news.unlikes += 1;
+        if (news.hasLiked) news.likes = Math.max(news.likes - 1, 0);
         news.hasUnliked = true;
         news.hasLiked = false;
-        if (news.likes > 0) news.likes -= 1;
       },
       error: err => console.error(err)
     });
   }
 
-  save(news: any): void {
+  save(news: TileData): void {
+    if (news.hasSaved) return;
+
     this.savedService.save(news.news_id, this.u_id).subscribe({
       next: () => {
         news.hasSaved = true;
+        alert('Saved!');
+      },
+      error: err => console.error(err)
+    });
+  }
+
+  unsave(news: TileData): void {
+    if (!news.hasSaved) return;
+
+    this.savedService.unsave(news.news_id, this.u_id).subscribe({
+      next: () => {
+        news.hasSaved = false;
+        alert('Unsaved!');
       },
       error: err => console.error(err)
     });

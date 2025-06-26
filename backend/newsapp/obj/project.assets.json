@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "Dapper/2.1.66": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Dapper.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authentication/2.3.0": {
         "type": "package",
         "dependencies": {
@@ -875,6 +888,25 @@
     }
   },
   "libraries": {
+    "Dapper/2.1.66": {
+      "sha512": "/q77jUgDOS+bzkmk3Vy9SiWMaetTw+NOoPAV0xPBsGVAyljd5S6P+4RUW7R3ZUGGr9lDRyPKgAMj2UAOwvqZYw==",
+      "type": "package",
+      "path": "dapper/2.1.66",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Dapper.png",
+        "dapper.2.1.66.nupkg.sha512",
+        "dapper.nuspec",
+        "lib/net461/Dapper.dll",
+        "lib/net461/Dapper.xml",
+        "lib/net8.0/Dapper.dll",
+        "lib/net8.0/Dapper.xml",
+        "lib/netstandard2.0/Dapper.dll",
+        "lib/netstandard2.0/Dapper.xml",
+        "readme.md"
+      ]
+    },
     "Microsoft.AspNetCore.Authentication/2.3.0": {
       "sha512": "Tq6bxTOe65Ikh9dWVTEOqpvNqBGIQueO0J+zl2rQba0yP0YV66iYDkSz9MqTdRZftvJ2I5kMeRUm9Z2mjEAbUQ==",
       "type": "package",
@@ -2325,6 +2357,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Dapper >= 2.1.66",
       "NewsApp.Repository >= 1.0.0",
       "Swashbuckle.AspNetCore >= 6.6.2",
       "System.Data.SqlClient >= 4.9.0"
@@ -2337,9 +2370,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\newsapp.csproj",
-      "projectName": "newsapp",
-      "projectPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\newsapp.csproj",
+      "projectUniqueName": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\NewsApp.csproj",
+      "projectName": "NewsApp",
+      "projectPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\NewsApp.csproj",
       "packagesPath": "C:\\Users\\123ma\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\123ma\\source\\repos\\NEWSFEEDAPP\\backend\\newsapp\\obj\\",
       "projectStyle": "PackageReference",
@@ -2384,6 +2417,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Dapper": {
+            "target": "Package",
+            "version": "[2.1.66, )"
+          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.6.2, )"

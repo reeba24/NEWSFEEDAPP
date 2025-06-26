@@ -10,5 +10,6 @@ namespace NewsApp.Repository.Models
     {
         public int u_id { get; set; }
         public int news_id { get; set; }
+        public string action { get; set; } = "like";
     }
 }

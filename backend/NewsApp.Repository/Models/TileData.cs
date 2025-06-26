@@ -20,11 +20,11 @@ namespace NewsApp.Repository.Models
         public int likes { get; set; }
         public int unlikes { get; set; }
         public DateTime created_time { get; set; }
-
         public int u_id { get; set; }
         public bool isFollowed { get; set; }
-
-
+        public bool hasLiked { get; set; }
+        public bool hasUnliked { get; set; }
+        public bool hasSaved { get; set; }
         public List<CommentModel> comments { get; set; } = new List<CommentModel>();
     }
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using System.Data.SqlClient;
 using NewsApp.Repository.Models;
+using newsapp.Repositories;
 
 namespace newsapp.Controllers
 {
@@ -9,15 +8,15 @@ namespace newsapp.Controllers
     [ApiController]
     public class ResetPasswordController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly IResetPasswordRepository _repository;
 
-        public ResetPasswordController(IConfiguration configuration)
+        public ResetPasswordController(IResetPasswordRepository repository)
         {
-            _configuration = configuration;
+            _repository = repository;
         }
 
         [HttpPost]
-        public IActionResult ResetPassword([FromBody] ResetPasswordRequest request)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
         {
             if (request == null || string.IsNullOrWhiteSpace(request.email) || string.IsNullOrWhiteSpace(request.newPassword))
             {
@@ -28,45 +27,13 @@ namespace newsapp.Controllers
 
             try
             {
-                using (SqlConnection con = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection")))
+                bool result = await _repository.ResetPasswordAsync(email, request.newPassword);
+                if (!result)
                 {
-                    con.Open();
-
-                    string checkUserQuery = "SELECT * FROM USERS WHERE email = @Email AND active = 1";
-                    using (SqlCommand checkCmd = new SqlCommand(checkUserQuery, con))
-                    {
-                        checkCmd.Parameters.AddWithValue("@Email", email);
-
-                        using (var reader = checkCmd.ExecuteReader())
-                        {
-                            if (!reader.HasRows)
-                            {
-                                return NotFound(new { message = "User not found or inactive." });
-                            }
-                        }
-                    }
-
-                    var hasher = new PasswordHasher<ResetPasswordRequest>();
-                    string hashedPassword = hasher.HashPassword(request, request.newPassword);
-
-                    string updateQuery = "UPDATE USERS SET password = @Password WHERE email = @Email AND active = 1";
-                    using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
-                    {
-                        updateCmd.Parameters.AddWithValue("@Password", hashedPassword);
-                        updateCmd.Parameters.AddWithValue("@Email", email);
-
-                        int rowsAffected = updateCmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            return Ok(new { message = "Password reset successfully." });
-                        }
-                        else
-                        {
-                            return StatusCode(500, new { message = "Failed to reset password." });
-                        }
-                    }
+                    return NotFound(new { message = "User not found or inactive." });
                 }
+
+                return Ok(new { message = "Password reset successfully." });
             }
             catch (Exception ex)
             {

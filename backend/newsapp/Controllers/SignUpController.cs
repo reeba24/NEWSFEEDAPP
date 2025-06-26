@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using newsapp.Models;
-using System.Data;
 using NewsApp.Repository.Interfaces;
-using Microsoft.AspNetCore.Identity;
 
 namespace newsapp.Controllers
 {
@@ -24,30 +20,26 @@ namespace newsapp.Controllers
             _signUpRepository = signuprepository;
         }
 
-        [HttpGet("api/test")]
+        [HttpGet("test")]
         public IActionResult TestConnection()
         {
             return Ok(new { message = "Connection successful!" });
         }
 
-        [HttpPost]
-        [Route("signup")]
-        public IActionResult signup([FromBody] Signup signup)
+        [HttpPost("signup")]
+        public IActionResult SignUp([FromBody] Signup signup)
         {
             if (signup == null)
-            {
                 return BadRequest("Invalid signup data.");
-            }
+
+            signup.active = 1;
+
             string result = _signUpRepository.CreateSignUp(signup);
 
-            if (result == "Data inserted")  
-            {
+            if (result == "Data inserted")
                 return Ok(new { message = "User registered successfully!" });
-            }
             else
-            {
                 return BadRequest(new { message = result });
-            }
         }
 
         [HttpPost]
@@ -70,6 +62,14 @@ namespace newsapp.Controllers
 
                 if (result == PasswordVerificationResult.Success)
                 {
+
+                    int u_id = Convert.ToInt32(dt.Rows[0]["u_id"]);
+                    SqlCommand cmd = new SqlCommand("UPDATE USERS SET signed_in = 1 WHERE u_id = @u_id", con);
+                    cmd.Parameters.AddWithValue("@u_id", u_id);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+
                     return "data found";
                 }
                 else
@@ -83,4 +83,4 @@ namespace newsapp.Controllers
             }
         }
     }
-}
+    }

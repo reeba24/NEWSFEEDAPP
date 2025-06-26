@@ -1,5 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+interface FollowPayload {
+  followedUid: number;
+  followedByUid: number;
+}
 
 @Injectable()
 export class FollowService {
@@ -7,12 +13,13 @@ export class FollowService {
 
   constructor(private http: HttpClient) {}
 
-  followUser(followedUid: number, followedByUid: number) {
-    const payload = {
-      followedUid: followedUid,
-      followedByUid: followedByUid
+  followUser(followedUid: number, followedByUid: number): Observable<any> {
+    const payload: FollowPayload = {
+      followedUid,
+      followedByUid
     };
-    console.log('Follow request:', payload);
+
+    console.log('Sending follow/unfollow request:', payload);
     return this.http.post(this.apiUrl, payload);
   }
 }

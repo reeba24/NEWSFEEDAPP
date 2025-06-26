@@ -1,68 +1,85 @@
 <div class="page-container">
   <div class="news-wrapper" *ngIf="newsItem">
-    <div class="back-btn" (click)="goBack()">    
-      <i class="fi fi-rr-arrow-small-left" style="color:#05450f; font-size: 30px;"></i> &nbsp;&nbsp;&nbsp;
+
+    <!-- Back Button -->
+    <div class="back-btn" (click)="goBack()">
+      <i class="fi fi-rr-arrow-small-left" style="color:#05450f; font-size: 30px;"></i>
     </div>
 
+    <!-- Follow Button -->
     <button class="foll" (click)="follow()">
       {{ newsItem.isFollowed ? 'Followed' : 'Follow' }}
     </button>
 
+    <!-- Title -->
     <h2>{{ newsItem.news_title }}</h2>
 
+    <!-- Author Info -->
     <p style="color: rgb(90, 95, 99); font-size: 12px; font-style: italic;">
       By {{ newsItem.first_name }} {{ newsItem.last_name }} on {{ newsItem.created_time | date }}
     </p>
 
+    <!-- Image -->
     <img *ngIf="newsItem?.imageBase64"
-      [src]="'data:image/jpeg;base64,' + newsItem.imageBase64"
-      alt="News image"
-      style="width: 100%; height: 300px; object-fit: cover; border-radius: 6px; margin-bottom: 15px; align-items: center;" />
-    
+         [src]="'data:image/jpeg;base64,' + newsItem.imageBase64"
+         alt="News image"
+         style="width: 100%; height: 300px; object-fit: cover; border-radius: 6px; margin-bottom: 15px;" />
+
+    <!-- Content -->
     <p>{{ newsItem.contents }}</p>
     <br>
 
-    <div style="display: flex;">
-      <p><b>Comments</b></p> &nbsp;&nbsp;&nbsp;
+    <!-- Interaction Icons -->
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <b>Comments</b>
 
       <i class="fi fi-rr-comment-alt"
-         style="cursor: pointer; font-size: 24px; color: #05450f;"
+         style="cursor: pointer; font-size: 22px; color: #05450f;"
          (click)="toggleComments()">
-      </i> &nbsp;&nbsp;&nbsp;
+      </i>
 
-      <i 
-        (click)="like()" 
-        [class]="'fi ' + (newsItem.hasLiked ? 'fi-sr-thumbs-up' : 'fi-rr-social-network')" 
-        style="color: #05450f; cursor: pointer;">
+      <i (click)="like()"
+         [class]="'fi ' + (newsItem.hasLiked ? 'fi-sr-thumbs-up' : 'fi-rr-social-network')"
+         style="color: #05450f; cursor: pointer;">
         {{ newsItem.likes }}
-      </i> &nbsp;&nbsp;
+      </i>
 
-      <i 
-        (click)="unlike()" 
-        [class]="'fi ' + (newsItem.hasUnliked ? 'fi-sr-thumbs-down' : 'fi-rr-hand')" 
-        style="color: #05450f; cursor: pointer;">
+      <i (click)="unlike()"
+         [class]="'fi ' + (newsItem.hasUnliked ? 'fi-sr-thumbs-down' : 'fi-rr-hand')"
+         style="color: #05450f; cursor: pointer;">
         {{ newsItem.unlikes }}
-      </i> &nbsp;&nbsp;
+      </i>
 
-      <i 
-        (click)="save()" 
-        [class]="'fi ' + (newsItem.hasSaved ? 'fi-sr-bookmark' : 'fi-rr-bookmark')" 
-        style="color: #05450f; cursor: pointer;">
-      </i> &nbsp;&nbsp;
+      <i (click)="save()"
+         [class]="'fi ' + (newsItem.hasSaved ? 'fi-sr-bookmark' : 'fi-rr-bookmark')"
+         style="color: #05450f; cursor: pointer;">
+      </i>
     </div>
 
-<div *ngIf="showComments && newsItem.comments.length > 0" style="margin-top: 10px;">
-  <ul style="padding-left: 20px; list-style: none;">
-    <li *ngFor="let comment of newsItem.comments">
-      <b>{{ comment.first_name }} {{ comment.last_name }}</b>: {{ comment.comments }}
-    </li>
-  </ul>
-</div>
+    <div *ngIf="showComments && newsItem.comments.length > 0" style="margin-top: 10px;">
+      <ul style="padding-left: 20px; list-style: none;">
+        <li *ngFor="let comment of newsItem.comments">
+          <b>{{ comment.first_name }} {{ comment.last_name }}</b>: {{ comment.comments }}
+        </li>
+      </ul>
+    </div>
 
-    <br>
-    <input type="text" placeholder="Add comment" [(ngModel)]="newComment" class="search-input" />&nbsp;&nbsp;&nbsp;
-    <i class="fi fi-rr-paper-plane" style="color:#05450f; font-size: 20px;" (click)="addComment()"></i>
+    <div style="margin-top: 15px;">
+      <input type="text"
+             placeholder="Add comment"
+             [(ngModel)]="newComment"
+             class="search-input" />
+      &nbsp;
+      <i class="fi fi-rr-paper-plane"
+         style="color:#05450f; font-size: 20px; cursor: pointer;"
+         (click)="addComment()">
+      </i>
+    </div>
+
+
+    <p *ngIf="successMessage" style="color: green; margin-top: 10px;">
+      {{ successMessage }}
+    </p>
+
   </div>
-
-  {{ successMessage }}
 </div>

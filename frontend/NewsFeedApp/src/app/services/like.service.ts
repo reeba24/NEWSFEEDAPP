@@ -10,17 +10,14 @@ export class LikeService {
 
   constructor(private http: HttpClient) {}
 
-  like(news_id: number, u_id: number) {
-    return this.http.post(`${this.baseUrl}/like`, { news_id, u_id });
+  performAction(news_id: number, u_id: number, action: 'like' | 'unlike') {
+    return this.http.post(`${this.baseUrl}/action`, { news_id, u_id, action });
   }
 
-  unlike(news_id: number, u_id: number) {
-    return this.http.post(`${this.baseUrl}/unlike`, { news_id, u_id });
-  }
-
-  getStatus(news_id: number, u_id: number): Observable<{ hasLiked: boolean, hasUnliked: boolean }> {
-    return this.http.get<{ hasLiked: boolean, hasUnliked: boolean }>(
-      `${this.baseUrl}/status?news_id=${news_id}&u_id=${u_id}`
+  getFullStatus(news_id: number, u_id: number): Observable<{ hasLiked: boolean, hasUnliked: boolean, hasSaved: boolean }> {
+    return this.http.get<{ hasLiked: boolean, hasUnliked: boolean, hasSaved: boolean }>(
+      `${this.baseUrl}/fullstatus?news_id=${news_id}&u_id=${u_id}`
     );
   }
+  
 }

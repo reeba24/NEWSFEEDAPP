@@ -22,19 +22,13 @@ export class ForyouComponent implements OnInit {
 
   ngOnInit(): void {
     this.newsList.forEach(news => {
-      this.likeService.getStatus(news.news_id, this.u_id).subscribe({
+      this.likeService.getFullStatus(news.news_id, this.u_id).subscribe({
         next: (res: any) => {
           news.hasLiked = res.hasLiked;
           news.hasUnliked = res.hasUnliked;
-        },
-        error: err => console.error('Like status fetch failed', err)
-      });
-
-      this.savedService.getStatus(news.news_id, this.u_id).subscribe({
-        next: (res: any) => {
           news.hasSaved = res.hasSaved;
         },
-        error: err => console.error('Save status fetch failed', err)
+        error: err => console.error('Status fetch failed', err)
       });
     });
   }
@@ -46,27 +40,28 @@ export class ForyouComponent implements OnInit {
   like(news: TileData): void {
     if (news.hasLiked) return;
 
-    this.likeService.like(news.news_id, this.u_id).subscribe({
+    this.likeService.performAction(news.news_id, this.u_id, 'like').subscribe({
       next: () => {
         news.likes += 1;
+        if (news.hasUnliked) news.unlikes = Math.max(news.unlikes - 1, 0);
         news.hasLiked = true;
         news.hasUnliked = false;
       },
-      error: err => console.error(err)
+      error: err => console.error('Like failed:', err)
     });
   }
 
   unlike(news: TileData): void {
-    this.likeService.unlike(news.news_id, this.u_id).subscribe({
+    if (news.hasUnliked) return;
+
+    this.likeService.performAction(news.news_id, this.u_id, 'unlike').subscribe({
       next: () => {
         news.unlikes += 1;
-        if (news.hasLiked) {
-          news.likes = Math.max(news.likes - 1, 0);
-        }
+        if (news.hasLiked) news.likes = Math.max(news.likes - 1, 0);
         news.hasLiked = false;
         news.hasUnliked = true;
       },
-      error: err => console.error(err)
+      error: err => console.error('Unlike failed:', err)
     });
   }
 
@@ -77,7 +72,17 @@ export class ForyouComponent implements OnInit {
       next: () => {
         news.hasSaved = true;
       },
-      error: err => console.error(err)
+      error: err => console.error('Save failed:', err)
+    });
+  }
+    unsave(news: TileData): void {
+    if (!news.hasSaved) return;
+
+    this.savedService.unsave(news.news_id, this.u_id).subscribe({
+      next: () => {
+        news.hasSaved = false;
+      },
+      error: err => console.error('Unsave failed:', err)
     });
   }
 }

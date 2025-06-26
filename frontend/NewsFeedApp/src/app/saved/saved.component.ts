@@ -12,7 +12,7 @@ import { CommentService } from '../services/comment.service';
   imports: [CommonModule],
   templateUrl: './saved.component.html',
   styleUrls: ['./saved.component.css'],
-  providers:[LikeService, SavedService, FollowService, CommentService]
+  providers: [LikeService, SavedService, FollowService, CommentService]
 })
 export class SavedComponent implements OnInit {
   @Input() newsItem: TileData | null = null;
@@ -44,19 +44,21 @@ export class SavedComponent implements OnInit {
         this.savedNewsList = data.map(news => ({
           ...news,
           isFollowed: true,
-          isSaved: true, // since it's saved tab
+          isSaved: true,
           comments: news.comments || [],
           hasLiked: false,
           hasUnliked: false
         }));
 
+        
         this.savedNewsList.forEach(news => {
-          this.likeService.getStatus(news.news_id, this.u_id).subscribe({
+          this.likeService.getFullStatus(news.news_id, this.u_id).subscribe({
             next: (status) => {
               news.hasLiked = status.hasLiked;
               news.hasUnliked = status.hasUnliked;
+              news.hasSaved = status.hasSaved;
             },
-            error: err => console.error('Error getting like status:', err)
+            error: err => console.error('Error getting full status:', err)
           });
         });
 
@@ -68,6 +70,16 @@ export class SavedComponent implements OnInit {
       }
     });
   }
+  unsave(news: TileData): void {
+  this.savedService.unsave(news.news_id, this.u_id).subscribe({
+    next: () => {
+      news.hasSaved = false;
+
+      this.savedNewsList = this.savedNewsList.filter(n => n.news_id !== news.news_id);
+    },
+    error: err => console.error('Error unsaving:', err)
+  });
+}
 
   selecttile(news: TileData): void {
     this.tileClicked.emit(news);
@@ -75,7 +87,7 @@ export class SavedComponent implements OnInit {
 
   like(news: TileData): void {
     if (news.hasLiked) return;
-    this.likeService.like(news.news_id, this.u_id).subscribe({
+    this.likeService.performAction(news.news_id, this.u_id, 'like').subscribe({
       next: () => {
         news.likes += 1;
         if (news.hasUnliked) news.unlikes = Math.max(news.unlikes - 1, 0);
@@ -88,7 +100,7 @@ export class SavedComponent implements OnInit {
 
   unlike(news: TileData): void {
     if (news.hasUnliked) return;
-    this.likeService.unlike(news.news_id, this.u_id).subscribe({
+    this.likeService.performAction(news.news_id, this.u_id, 'unlike').subscribe({
       next: () => {
         news.unlikes += 1;
         if (news.hasLiked) news.likes = Math.max(news.likes - 1, 0);
@@ -123,9 +135,10 @@ export class SavedComponent implements OnInit {
     };
 
     this.commentService.addComment(commentPayload).subscribe({
-      next: () => {
+      next: (res: any) => {
         this.successMessage = 'Comment added successfully';
         this.newComment = '';
+        this.newsItem!.comments = res.comments;
       },
       error: (err: any) => {
         console.error('Error adding comment:', err);

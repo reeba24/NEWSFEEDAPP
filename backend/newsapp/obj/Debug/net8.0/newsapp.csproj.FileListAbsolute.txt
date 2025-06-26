@@ -115,3 +115,4 @@ C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\newsapp\obj\Debug\net8.0\refint\
 C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\newsapp\obj\Debug\net8.0\newsapp.pdb
 C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\newsapp\obj\Debug\net8.0\newsapp.genruntimeconfig.cache
 C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\newsapp\obj\Debug\net8.0\ref\newsapp.dll
+C:\Users\123ma\source\repos\NEWSFEEDAPP\backend\newsapp\bin\Debug\net8.0\Dapper.dll

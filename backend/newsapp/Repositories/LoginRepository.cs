@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using newsapp.Models;
-using System.Data.SqlClient;
+using newsapp.Data;
 using Dapper;
 
 namespace newsapp.Repositories
 {
     public class LoginRepository : ILoginRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
 
-        public LoginRepository(IConfiguration configuration)
+        public LoginRepository(IDataManager dataManager)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
         }
 
         public async Task<(bool success, int userId, string message)> SignInAsync(login login)
@@ -21,9 +21,10 @@ namespace newsapp.Repositories
 
             string normalizedEmail = login.email.Trim().ToLower();
 
-            using var con = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection"));
             string query = "SELECT u_id, password FROM USERS WHERE email = @Email AND active = 1";
-            var user = await con.QueryFirstOrDefaultAsync<(int u_id, string password)>(query, new { Email = normalizedEmail });
+
+            var user = await _dataManager.QueryFirstOrDefaultAsync<(int u_id, string password)>(
+                query, new { Email = normalizedEmail });
 
             if (user.u_id == 0)
                 return (false, 0, "User not found or inactive.");

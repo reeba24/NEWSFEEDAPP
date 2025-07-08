@@ -25,6 +25,7 @@ namespace NewsApp.Repository.Models
         public bool hasLiked { get; set; }
         public bool hasUnliked { get; set; }
         public bool hasSaved { get; set; }
+        public int read_time { get; set; }
         public List<CommentModel> comments { get; set; } = new List<CommentModel>();
     }
 

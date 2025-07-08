@@ -13,6 +13,7 @@ import { SearchComponent } from '../search/search.component';
 import { FollowingComponent } from '../following/following.component';
 import { SavedComponent } from '../saved/saved.component';
 import { NotificationsComponent } from '../notifications/notifications.component';
+import { NotificationService } from '../services/notification.service'; 
 
 @Component({
   selector: 'app-dashboard',
@@ -46,18 +47,22 @@ export class DashboardComponent implements OnInit {
   searchText: string = '';
   activeTab: 'forYou' | 'trending' | 'tilenewsdetails' | 'editprofile' | 'newpost' | 'following' | 'saved' = 'forYou';
   showNotifications: boolean = false;
- 
   userId: number = 0;
+
+  hasUnreadNotifications: boolean = false; 
 
   constructor(
     private router: Router,
     private newsService: NewsService,
-    private http: HttpClient 
+    private http: HttpClient,
+    private notificationService: NotificationService 
   ) {}
 
   ngOnInit(): void {
     console.log('DashboardComponent initialized');
     this.userId = parseInt(localStorage.getItem('userId') || '0');
+
+    this.checkNotifications(); 
 
     this.newsService.getFeedStatus(this.userId).subscribe({
       next: (res: any) => {
@@ -81,20 +86,29 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onSearch(): void {
-  const searchTerm = this.searchText.trim();
-  if (searchTerm) {
-    this.newsService.getSearchResults(searchTerm).subscribe({
-      next: data => {
-        this.searchResults = data;
-        this.isSearching = true;
+  checkNotifications(): void {
+    this.notificationService.getNotifications(this.userId).subscribe({
+      next: (data) => {
+        this.hasUnreadNotifications = data && data.length > 0;
       },
-      error: err => console.error('Search failed:', err)
+      error: (err) => console.error('Failed to fetch notifications', err)
     });
-  } else {
-    this.clearSearch();
   }
-}
+
+  onSearch(): void {
+    const searchTerm = this.searchText.trim();
+    if (searchTerm) {
+      this.newsService.getSearchResults(searchTerm).subscribe({
+        next: data => {
+          this.searchResults = data;
+          this.isSearching = true;
+        },
+        error: err => console.error('Search failed:', err)
+      });
+    } else {
+      this.clearSearch();
+    }
+  }
 
   clearSearch(): void {
     this.searchText = '';
@@ -155,20 +169,18 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-  
-  this.showDropdown = false;
-  this.logoutConfirmationVisible = true;
-  
-}
+    this.showDropdown = false;
+    this.logoutConfirmationVisible = true;
+  }
 
-confirmLogout(): void {
-  const userId = parseInt(localStorage.getItem('userId') || '0');
-  this.http.post('https://localhost:7077/api/signout', { u_id: userId }).subscribe(() => {
-    localStorage.clear();
-    this.logoutConfirmationVisible = false;
-    this.router.navigate(['/signin']); 
-  });
-}
+  confirmLogout(): void {
+    const userId = parseInt(localStorage.getItem('userId') || '0');
+    this.http.post('https://localhost:7077/api/signout', { u_id: userId }).subscribe(() => {
+      localStorage.clear();
+      this.logoutConfirmationVisible = false;
+      this.router.navigate(['/signin']); 
+    });
+  }
 
   cancelLogout(): void {
     localStorage.removeItem('token');
@@ -197,6 +209,7 @@ confirmLogout(): void {
 
   noticlick(): void {
     this.showNotifications = !this.showNotifications;
+    this.hasUnreadNotifications = false; 
   }
 
   closeNotifications(): void {

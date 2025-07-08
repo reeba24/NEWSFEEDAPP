@@ -1,44 +1,36 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using NewsApp.Repository.Models;
-using System.Data.SqlClient;
+using newsapp.Data;
+using Dapper;
 
 namespace newsapp.Repositories
 {
     public class ResetPasswordRepository : IResetPasswordRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
 
-        public ResetPasswordRepository(IConfiguration configuration)
+        public ResetPasswordRepository(IDataManager dataManager)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
         }
 
         public async Task<bool> ResetPasswordAsync(string email, string newPassword)
         {
-            using SqlConnection con = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection"));
-            await con.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
 
-            string checkUserQuery = "SELECT * FROM USERS WHERE email = @Email AND active = 1";
-            using SqlCommand checkCmd = new SqlCommand(checkUserQuery, con);
-            checkCmd.Parameters.AddWithValue("@Email", email);
+            string checkUserQuery = "SELECT COUNT(*) FROM USERS WHERE email = @Email AND active = 1";
+            int userExists = await conn.ExecuteScalarAsync<int>(checkUserQuery, new { Email = email });
 
-            using var reader = await checkCmd.ExecuteReaderAsync();
-            if (!reader.HasRows)
-            {
-                return false; 
-            }
-
-            await reader.CloseAsync();
+            if (userExists == 0)
+                return false;
 
             var hasher = new PasswordHasher<object>();
             string hashedPassword = hasher.HashPassword(null, newPassword);
 
             string updateQuery = "UPDATE USERS SET password = @Password WHERE email = @Email AND active = 1";
-            using SqlCommand updateCmd = new SqlCommand(updateQuery, con);
-            updateCmd.Parameters.AddWithValue("@Password", hashedPassword);
-            updateCmd.Parameters.AddWithValue("@Email", email);
+            int rowsAffected = await conn.ExecuteAsync(updateQuery, new { Password = hashedPassword, Email = email });
 
-            int rowsAffected = await updateCmd.ExecuteNonQueryAsync();
             return rowsAffected > 0;
         }
     }

@@ -9,7 +9,8 @@
     <div class="tile-body" (click)="selecttile(news)">
       <h3>{{ news.news_title }}</h3>
       <p class="author-info">
-        By {{ news.first_name }} {{ news.last_name }} | {{ news.created_time | date: 'medium' }}
+        By {{ news.first_name }} {{ news.last_name }} | {{ news.created_time | date: 'MMM d, y, h:mm a' }} | 
+  {{ news.read_time }} min read
       </p>
       <img *ngIf="news.imageBase64" [src]="'data:image/jpeg;base64,' + news.imageBase64" alt="News image" />
     </div>

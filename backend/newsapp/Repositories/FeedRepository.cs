@@ -1,17 +1,18 @@
-﻿using System.Data.SqlClient;
+﻿using System.Data;
 using Dapper;
 using NewsApp.Repository.Models;
+using newsapp.Data;
 
 namespace newsapp.Repositories
 {
     public class FeedRepository : IFeedRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
         private readonly ILogger<FeedRepository> _logger;
 
-        public FeedRepository(IConfiguration configuration, ILogger<FeedRepository> logger)
+        public FeedRepository(IDataManager dataManager, ILogger<FeedRepository> logger)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
             _logger = logger;
         }
 
@@ -19,62 +20,40 @@ namespace newsapp.Repositories
         {
             try
             {
-                string connStr = _configuration.GetConnectionString("NewsDbConnection")!;
-                using (SqlConnection conn = new SqlConnection(connStr))
+                using var conn = _dataManager.CreateConnection();
+                conn.Open();
+
+                string prefQuery = "SELECT COUNT(*) FROM USER_PREF_BRIDGE WHERE u_id = @UserId";
+                int prefCount = conn.ExecuteScalar<int>(prefQuery, new { UserId = userId });
+                if (prefCount == 0)
+                    return "noprefs";
+
+                string followQuery = "SELECT COUNT(*) FROM FOLLOWED WHERE followed_by_uid = @UserId AND activeind = 1";
+                int followCount = conn.ExecuteScalar<int>(followQuery, new { UserId = userId });
+
+                if (followCount == 0)
                 {
-                    await conn.OpenAsync();
-
-                    string prefQuery = "SELECT COUNT(*) FROM USER_PREF_BRIDGE WHERE u_id = @UserId";
-                    using (SqlCommand prefCmd = new SqlCommand(prefQuery, conn))
-                    {
-                        prefCmd.Parameters.AddWithValue("@UserId", userId);
-                        int prefCount = (int)await prefCmd.ExecuteScalarAsync();
-                        if (prefCount == 0)
-                            return "noprefs";
-                    }
-
-                    string followQuery = "SELECT COUNT(*) FROM FOLLOWED WHERE followed_by_uid = @UserId AND activeind = 1";
-                    using (SqlCommand followCmd = new SqlCommand(followQuery, conn))
-                    {
-                        followCmd.Parameters.AddWithValue("@UserId", userId);
-                        int followCount = (int)await followCmd.ExecuteScalarAsync();
-
-                        if (followCount == 0)
-                        {
-                            string prefNewsQuery = @"
-                                SELECT TOP 1 1 FROM NEWS 
-                                WHERE pref_id IN (
-                                    SELECT pref_id FROM USER_PREF_BRIDGE WHERE u_id = @UserId
-                                ) AND active = 1";
-
-                            using (SqlCommand newsCmd = new SqlCommand(prefNewsQuery, conn))
-                            {
-                                newsCmd.Parameters.AddWithValue("@UserId", userId);
-                                var reader = await newsCmd.ExecuteReaderAsync();
-                                if (reader.HasRows)
-                                    return "ready";
-                                else
-                                    return "nonews";
-                            }
-                        }
-                    }
-
-                    string followedNewsQuery = @"
-                        SELECT COUNT(*) 
-                        FROM NEWS 
-                        WHERE u_id IN (
-                            SELECT followed_uid 
-                            FROM FOLLOWED 
-                            WHERE followed_by_uid = @UserId AND activeind = 1
+                    string prefNewsQuery = @"
+                        SELECT TOP 1 1 FROM NEWS 
+                        WHERE pref_id IN (
+                            SELECT pref_id FROM USER_PREF_BRIDGE WHERE u_id = @UserId
                         ) AND active = 1";
 
-                    using (SqlCommand newsCmd = new SqlCommand(followedNewsQuery, conn))
-                    {
-                        newsCmd.Parameters.AddWithValue("@UserId", userId);
-                        int newsCount = (int)await newsCmd.ExecuteScalarAsync();
-                        return newsCount == 0 ? "nonews" : "ready";
-                    }
+                    var result = conn.QueryFirstOrDefault<int?>(prefNewsQuery, new { UserId = userId });
+                    return result.HasValue ? "ready" : "nonews";
                 }
+
+                string followedNewsQuery = @"
+                    SELECT COUNT(*) 
+                    FROM NEWS 
+                    WHERE u_id IN (
+                        SELECT followed_uid 
+                        FROM FOLLOWED 
+                        WHERE followed_by_uid = @UserId AND activeind = 1
+                    ) AND active = 1";
+
+                int newsCount = conn.ExecuteScalar<int>(followedNewsQuery, new { UserId = userId });
+                return newsCount == 0 ? "nonews" : "ready";
             }
             catch (Exception ex)
             {

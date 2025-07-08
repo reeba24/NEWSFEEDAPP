@@ -1,25 +1,24 @@
 ﻿using NewsApp.Repository.Models;
-using System.Data.SqlClient;
+using newsapp.Data;
 using Dapper;
 
 namespace newsapp.Repositories
 {
     public class CommentsRepository : ICommentsRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
         private readonly ILogger<CommentsRepository> _logger;
 
-        public CommentsRepository(IConfiguration configuration, ILogger<CommentsRepository> logger)
+        public CommentsRepository(IDataManager dataManager, ILogger<CommentsRepository> logger)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
             _logger = logger;
         }
 
         public async Task<(int commentId, IEnumerable<CommentModel> comments)> AddCommentAsync(NewsComment comment)
         {
-            using var conn = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection"));
+            using var conn = (System.Data.SqlClient.SqlConnection)_dataManager.CreateConnection();
             await conn.OpenAsync();
-
             using var transaction = conn.BeginTransaction();
 
             try
@@ -83,7 +82,6 @@ namespace newsapp.Repositories
 
         public async Task<IEnumerable<CommentModel>> GetCommentsByNewsIdAsync(int newsId)
         {
-            using var conn = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection"));
             string sql = @"
                 SELECT 
                     C.comment_id, C.news_id, C.u_id, C.comments, C.created_time,
@@ -93,7 +91,7 @@ namespace newsapp.Repositories
                 WHERE C.news_id = @NewsId AND C.active = 1
                 ORDER BY C.created_time ASC";
 
-            return await conn.QueryAsync<CommentModel>(sql, new { NewsId = newsId });
+            return await _dataManager.QueryAsync<CommentModel>(sql, new { NewsId = newsId });
         }
     }
 }

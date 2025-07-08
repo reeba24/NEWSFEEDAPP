@@ -1,74 +1,55 @@
-﻿using System.Data.SqlClient;
+﻿using Dapper;
 using NewsApp.Repository.Models;
+using newsapp.Data;
+using System.Data;
 
 namespace newsapp.Repositories
 {
     public class NotificationRepository : INotificationRepository
     {
-        private readonly IConfiguration _config;
+        private readonly IDataManager _dataManager;
 
-        public NotificationRepository(IConfiguration config)
+        public NotificationRepository(IDataManager dataManager)
         {
-            _config = config;
+            _dataManager = dataManager;
         }
 
         public async Task<List<Notification>> GetNotificationsAsync(int userId)
         {
-            var notifications = new List<Notification>();
-            using SqlConnection conn = new SqlConnection(_config.GetConnectionString("NewsDbConnection"));
-            await conn.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
 
             string query = @"SELECT notification_id, u_id, notificationtype_id, created_time, read_time, notification_text, active 
                              FROM NOTIFICATION 
                              WHERE u_id = @UserId AND active = 1";
 
-            using SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@UserId", userId);
+            var notifications = await conn.QueryAsync<Notification>(query, new { UserId = userId });
 
-            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
-            {
-                notifications.Add(new Notification
-                {
-                    notification_id = Convert.ToInt32(reader["notification_id"]),
-                    u_id = Convert.ToInt32(reader["u_id"]),
-                    notificationtype_id = Convert.ToInt32(reader["notificationtype_id"]),
-                    created_time = Convert.ToDateTime(reader["created_time"]),
-                    read_time = reader["read_time"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["read_time"]),
-                    notification_text = reader["notification_text"].ToString(),
-                    active = Convert.ToBoolean(reader["active"])
-                });
-            }
-
-            return notifications;
+            return notifications.ToList();
         }
 
         public async Task MarkAsReadAsync(int notificationId)
         {
-            using SqlConnection conn = new SqlConnection(_config.GetConnectionString("NewsDbConnection"));
-            await conn.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
 
             string query = @"UPDATE NOTIFICATION 
                              SET active = 0, read_time = GETDATE() 
                              WHERE notification_id = @NotificationId";
 
-            using SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@NotificationId", notificationId);
-            await cmd.ExecuteNonQueryAsync();
+            await conn.ExecuteAsync(query, new { NotificationId = notificationId });
         }
 
         public async Task ClearAllAsync(int userId)
         {
-            using SqlConnection conn = new SqlConnection(_config.GetConnectionString("NewsDbConnection"));
-            await conn.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
 
             string query = @"UPDATE NOTIFICATION 
                              SET active = 0, read_time = GETDATE() 
                              WHERE u_id = @UserId";
 
-            using SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@UserId", userId);
-            await cmd.ExecuteNonQueryAsync();
+            await conn.ExecuteAsync(query, new { UserId = userId });
         }
     }
 }

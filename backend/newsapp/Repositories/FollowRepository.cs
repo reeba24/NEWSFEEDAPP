@@ -1,24 +1,25 @@
 ﻿using Dapper;
 using NewsApp.Repository.Models;
-using System.Data.SqlClient;
+using newsapp.Data;
+using System.Data;
 
 namespace newsapp.Repositories
 {
     public class FollowRepository : IFollowRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
         private readonly ILogger<FollowRepository> _logger;
 
-        public FollowRepository(IConfiguration configuration, ILogger<FollowRepository> logger)
+        public FollowRepository(IDataManager dataManager, ILogger<FollowRepository> logger)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
             _logger = logger;
         }
 
         public async Task<string> ToggleFollowAsync(Follow follow)
         {
-            using var conn = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection"));
-            await conn.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
             using var transaction = conn.BeginTransaction();
 
             try
@@ -69,13 +70,13 @@ namespace newsapp.Repositories
                     VALUES (@ToUid, @TypeId, GETDATE(), @Text, 1)",
                     new { ToUid = follow.FollowedUid, TypeId = notificationType, Text = notifText }, transaction);
 
-                await transaction.CommitAsync();
+                transaction.Commit();
 
                 return isFollowed ? "Unfollowed successfully." : "Followed successfully.";
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
+                transaction.Rollback();
                 _logger.LogError(ex, "Follow toggle failed.");
                 throw;
             }

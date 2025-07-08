@@ -1,6 +1,12 @@
 <div class="dashboard-container">
   <div class="sidebar">
-    <h3><img class="logo" src="assets/tech2.png" alt="logo"> News in the Block</h3>
+    
+    
+<div class="brand-title">
+      <img class="logo" src="assets/tech2.png" alt="logo" />
+      <h3>News in the Block</h3>
+    </div>
+
     <button class="new-post" (click)="opennewpost()">+ New Post</button>
 
 <ul class="menu-list">
@@ -25,7 +31,10 @@
         [(ngModel)]="searchText"
         (input)="onSearch()" />
       <div class="icons">
-        <span (click)="noticlick()"><i class="fi fi-rr-bell" style="height: 40px; width: 30px;color: rgb(9, 78, 35)"></i></span> &nbsp;
+        <span (click)="noticlick()" style="position: relative;">
+  <i class="fi fi-rr-bell" style="height: 40px; width: 30px; color: rgb(9, 78, 35);"></i>
+  <span *ngIf="hasUnreadNotifications" class="notification-dot"></span>
+</span> &nbsp;
 
         <span 
           class="profile-wrapper" 
@@ -52,7 +61,7 @@
       <button class="tab" [class.active]="activeTab === 'trending'" (click)="opentrending()">Trending</button>
     </div>
 
-    <!-- FEED MESSAGES -->
+    
     <div class="feed-message" *ngIf="!isSearching && activeTab === 'forYou' && feedStatus !== 'ready'">
       <div *ngIf="feedStatus === 'noprefs'">
         <p>You haven't selected any preferences yet.</p>

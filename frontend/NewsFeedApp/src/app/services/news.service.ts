@@ -23,6 +23,7 @@ export interface TileData {
   unlikes: number;
   created_time: string;
   comments: CommentModel[];
+  read_time:number;
   u_id: number;
   isFollowed?: boolean;
   hasLiked?: boolean;

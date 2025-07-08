@@ -1,27 +1,28 @@
 ﻿using Dapper;
 using NewsApp.Repository.Models;
-using System.Data.SqlClient;
+using newsapp.Data;
+using System.Data;
 
 namespace newsapp.Repositories
 {
     public class FollowingRepository : IFollowingRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
 
-        public FollowingRepository(IConfiguration configuration)
+        public FollowingRepository(IDataManager dataManager)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
         }
 
         public async Task<IEnumerable<TileData>> GetFollowedNewsAsync(int userId)
         {
             var list = new List<TileData>();
-            using var conn = new SqlConnection(_configuration.GetConnectionString("NewsDbConnection"));
-            await conn.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
 
             var sql = @"
                 SELECT n.news_id, n.news_title, n.contents, m.image, u.first_name, u.last_name,
-                       n.created_time, u.u_id AS author_id
+                       n.created_time, u.u_id AS author_id, n.read_time
                 FROM FOLLOWED f
                 JOIN USERS u ON f.followed_uid = u.u_id
                 JOIN NEWS n ON u.u_id = n.u_id
@@ -29,21 +30,31 @@ namespace newsapp.Repositories
                 WHERE f.followed_by_uid = @UserId AND f.activeind = 1 AND n.active = 1
                 ORDER BY n.created_time DESC";
 
-            var reader = await conn.QueryAsync(sql, new { UserId = userId });
+            var rows = await conn.QueryAsync(sql, new { UserId = userId });
 
-            foreach (var row in reader)
+            foreach (var row in rows)
             {
+                string contents = row.contents;
+                int wordCount = !string.IsNullOrWhiteSpace(contents)
+                    ? contents.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length
+                    : 0;
+                int calculatedReadTime = wordCount / 100;
+                if (calculatedReadTime == 0 && wordCount > 0) calculatedReadTime = 1;
+
+                int readTime = row.read_time != null ? (int)row.read_time : calculatedReadTime;
+
                 var news = new TileData
                 {
                     news_id = row.news_id,
                     news_title = row.news_title,
-                    contents = row.contents,
+                    contents = contents,
                     image = row.image,
                     imageBase64 = row.image != null ? Convert.ToBase64String(row.image) : null,
                     first_name = row.first_name,
                     last_name = row.last_name,
                     created_time = row.created_time,
                     u_id = row.author_id,
+                    read_time = readTime,
                     isFollowed = true,
                     hasLiked = false,
                     hasUnliked = false,

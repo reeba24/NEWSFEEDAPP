@@ -1,24 +1,23 @@
-﻿using NewsApp.Repository.Models;
-using System.Data.SqlClient;
+﻿using Dapper;
+using NewsApp.Repository.Models;
+using newsapp.Data;
 
 namespace newsapp.Repositories
 {
     public class SearchRepository : ISearchRepository
     {
-        private readonly IConfiguration _configuration;
+        private readonly IDataManager _dataManager;
 
-        public SearchRepository(IConfiguration configuration)
+        public SearchRepository(IDataManager dataManager)
         {
-            _configuration = configuration;
+            _dataManager = dataManager;
         }
 
         public async Task<List<TileData>> SearchNewsAsync(string keyword)
         {
             var searchResults = new List<TileData>();
-            string connectionString = _configuration.GetConnectionString("NewsDbConnection");
-
-            using SqlConnection conn = new SqlConnection(connectionString);
-            await conn.OpenAsync();
+            using var conn = _dataManager.CreateConnection();
+            conn.Open();
 
             string sql = @"
                 SELECT 
@@ -47,28 +46,34 @@ namespace newsapp.Repositories
                       (LOWER(n.news_title) LIKE @keyword OR LOWER(n.contents) LIKE @keyword)
                 ORDER BY n.created_time DESC";
 
-            using SqlCommand cmd = new SqlCommand(sql, conn);
-            cmd.Parameters.AddWithValue("@keyword", $"%{keyword.ToLower()}%");
+            var results = await conn.QueryAsync(sql, new { keyword = $"%{keyword.ToLower()}%" });
 
-            using var reader = await cmd.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
+            foreach (var row in results)
             {
-                var imageBytes = reader["image"] as byte[];
+                string contents = row.contents;
+                int wordCount = !string.IsNullOrWhiteSpace(contents)
+                    ? contents.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length
+                    : 0;
+                int calculatedReadTime = wordCount / 100;
+                if (calculatedReadTime == 0 && wordCount > 0) calculatedReadTime = 1;
+
+                byte[]? imageBytes = row.image;
                 string? base64Image = imageBytes != null ? Convert.ToBase64String(imageBytes) : null;
 
                 searchResults.Add(new TileData
                 {
-                    news_id = (int)reader["news_id"],
-                    news_title = reader["news_title"].ToString(),
-                    contents = reader["contents"].ToString(),
+                    news_id = row.news_id,
+                    news_title = row.news_title,
+                    contents = contents,
                     image = imageBytes,
                     imageBase64 = base64Image,
-                    first_name = reader["first_name"].ToString(),
-                    last_name = reader["last_name"].ToString(),
-                    likes = (int)reader["likes"],
-                    unlikes = (int)reader["unlikes"],
-                    created_time = (DateTime)reader["created_time"],
-                    u_id = (int)reader["u_id"],
+                    first_name = row.first_name,
+                    last_name = row.last_name,
+                    likes = row.likes,
+                    unlikes = row.unlikes,
+                    created_time = row.created_time,
+                    u_id = row.u_id,
+                    read_time = calculatedReadTime,
                     comments = new List<CommentModel>()
                 });
             }

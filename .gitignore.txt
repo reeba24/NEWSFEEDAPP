@@ -3,3 +3,4 @@ bin/
 obj/
 node_modules/
 .env
+db/Backup/newsapp.bak
